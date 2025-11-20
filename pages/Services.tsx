@@ -76,7 +76,7 @@ const Services: React.FC = () => {
                We only use modern, industry-standard technologies to ensure your product is scalable, secure, and maintainable.
              </p>
              <div className="flex flex-wrap gap-3">
-               {['React', 'TypeScript', 'Next.js', 'Node.js', 'PostgreSQL', 'AWS', 'Docker', 'Tailwind CSS', 'Framer Motion'].map(tech => (
+               {['React', 'TypeScript', 'Node.js', 'MySQL', 'AWS', 'Docker', 'Tailwind CSS', 'Framer Motion'].map(tech => (
                  <span key={tech} className="px-4 py-2 border border-white/10 text-slate-300 font-mono text-sm">
                    {tech}
                  </span>

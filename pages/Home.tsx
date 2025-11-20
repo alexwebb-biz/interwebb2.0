@@ -14,21 +14,21 @@ const Home: React.FC = () => {
   const pricing = [
     {
       name: 'STARTER',
-      price: '£2,450',
+      price: '£599.00',
       desc: 'Perfect for startups needing a professional, high-impact presence.',
       features: ['Custom UI/UX Design', '5-Page React Website', 'CMS Integration', 'Basic SEO Setup', '1 Month Support'],
       highlight: false
     },
     {
       name: 'GROWTH',
-      price: '£5,950',
+      price: '£999.00',
       desc: 'For businesses ready to scale with advanced functionality.',
       features: ['Strategy Workshop', '10+ Pages / Blog', 'Advanced Animations', 'Conversion Optimization', 'Analytics Dashboard', '3 Months Support'],
       highlight: true
     },
     {
       name: 'ENTERPRISE',
-      price: 'Custom',
+      price: '£1499.00',
       desc: 'Complex platforms and bespoke digital products.',
       features: ['Full Product Design', 'Custom Web App (SaaS)', 'API Integrations', 'Scalable Cloud Arch.', 'Dedicated Team', 'SLA Support'],
       highlight: false
@@ -43,7 +43,7 @@ const Home: React.FC = () => {
       <section className="py-24 border-b border-white/5">
         <div className="max-w-7xl mx-auto px-6">
           <h2 className="text-2xl md:text-4xl text-slate-300 font-light leading-relaxed max-w-4xl">
-            Interwebb is a London-based digital product studio. We simplify the complex, building <span className="text-white font-medium">websites and applications</span> that drive real business growth.
+            Interwebb is a Wales-based digital product studio. We simplify the complex, building <span className="text-white font-medium">websites and applications</span> that drive real business growth.
           </h2>
         </div>
       </section>
