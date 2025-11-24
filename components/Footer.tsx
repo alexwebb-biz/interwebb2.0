@@ -17,7 +17,7 @@ const Footer: React.FC = () => {
               </span>
             </Link>
             <p className="text-slate-500 text-sm leading-relaxed max-w-xs">
-              London-based digital engineering studio. We build the future of the web for brands that dare to be different.
+              Wales-based digital engineering studio. We build the future of the web for brands that dare to be different.
             </p>
           </div>
 
@@ -63,7 +63,7 @@ const Footer: React.FC = () => {
 
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-slate-600 text-xs font-mono uppercase">
-            © {new Date().getFullYear()} Interwebb Digital Ltd.
+            © {new Date().getFullYear()} Interwebb UK Ltd.
           </p>
           <div className="flex gap-2 items-center">
              <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>

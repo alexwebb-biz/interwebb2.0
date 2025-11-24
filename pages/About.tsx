@@ -5,32 +5,32 @@ import { Award, Users, Globe, Cpu, Zap } from 'lucide-react';
 
 const About: React.FC = () => {
   const stats = [
-    { label: 'Projects Deployed', value: '85+', icon: <Cpu size={20} /> },
-    { label: 'Years Active', value: '06', icon: <Zap size={20} /> },
-    { label: 'Global Clients', value: '32', icon: <Globe size={20} /> },
-    { label: 'Team Members', value: '14', icon: <Users size={20} /> },
+    { label: 'Projects Deployed', value: '20+', icon: <Cpu size={20} /> },
+    { label: 'Years Active', value: '04', icon: <Zap size={20} /> },
+    { label: 'Global Clients', value: '15+', icon: <Globe size={20} /> },
+    { label: 'Team Members', value: '2', icon: <Users size={20} /> },
   ];
 
   const timeline = [
     {
-      year: '2018',
-      title: 'System Initialization',
-      desc: 'Interwebb was founded in a small apartment in Shoreditch. One laptop, strong coffee, and a vision to rid the web of bad UX.'
-    },
-    {
-      year: '2020',
-      title: 'Scaling the Core',
-      desc: 'Expanded to a team of 5. Landed our first enterprise client and moved into our first dedicated studio space in East London.'
-    },
-    {
       year: '2022',
-      title: 'Technological Shift',
-      desc: 'Pivoted to a React/Next.js exclusive architecture. Established our reputation for high-performance, motion-rich interfaces.'
+      title: 'Freelance Front-end Web Developer',
+      desc: 'Working on small projects and contributing to open-source projects.'
+    },
+    {
+      year: '2023',
+      title: 'Expanding into full stack development',
+      desc: 'Moved into fullstack development, working on full stack applications with MERN stack.'
     },
     {
       year: '2024',
-      title: 'Global Expansion',
-      desc: 'Launched Interwebb 2.0. Now serving clients across the UK, US, and Dubai with a dedicated AI-integration division.'
+      title: 'Moved into App development',
+      desc: 'Started working on mobile applications with React Native and supabase. Deployed multiple applications.'
+    },
+    {
+      year: '2025',
+      title: 'Re-design and re-launch of Interwebb',
+      desc: 'Launched Interwebb 2.0. A high-performance digital agency site with a technical, neon-accented design system.'
     }
   ];
 
@@ -123,29 +123,6 @@ const About: React.FC = () => {
            <p className="text-lg md:text-xl text-slate-300 leading-relaxed mb-10">
              "We believe that code is a creative medium. In a world of templates and AI-generated content, we stand for bespoke craftsmanship. We don't just build websites; we build digital assets that appreciate in value."
            </p>
-           <div className="flex justify-center gap-8">
-              <div className="text-center">
-                <div className="w-16 h-16 rounded-full bg-white/10 mb-3 mx-auto overflow-hidden grayscale hover:grayscale-0 transition-all">
-                   <img src="https://i.pravatar.cc/150?img=11" alt="Founder" />
-                </div>
-                <div className="text-white font-bold text-sm">ALEX R.</div>
-                <div className="text-brand-300 text-xs font-mono">FOUNDER</div>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 rounded-full bg-white/10 mb-3 mx-auto overflow-hidden grayscale hover:grayscale-0 transition-all">
-                   <img src="https://i.pravatar.cc/150?img=5" alt="Design Lead" />
-                </div>
-                <div className="text-white font-bold text-sm">SARAH J.</div>
-                <div className="text-brand-300 text-xs font-mono">DESIGN</div>
-              </div>
-              <div className="text-center">
-                <div className="w-16 h-16 rounded-full bg-white/10 mb-3 mx-auto overflow-hidden grayscale hover:grayscale-0 transition-all">
-                   <img src="https://i.pravatar.cc/150?img=8" alt="Tech Lead" />
-                </div>
-                <div className="text-white font-bold text-sm">MARCUS T.</div>
-                <div className="text-brand-300 text-xs font-mono">DEV</div>
-              </div>
-           </div>
          </div>
       </section>
 

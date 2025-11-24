@@ -16,7 +16,7 @@ const Home: React.FC = () => {
       name: 'STARTER',
       price: '£599.00',
       desc: 'Perfect for startups needing a professional, high-impact presence.',
-      features: ['Custom UI/UX Design', '5-Page React Website', 'CMS Integration', 'Basic SEO Setup', '1 Month Support'],
+      features: ['Custom UI/UX Design', '5-Page React Website', 'CMS Integration', 'Basic SEO Setup', '1 Month Support', 'Basic Analytics'],
       highlight: false
     },
     {
