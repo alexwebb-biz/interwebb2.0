@@ -1,20 +1,39 @@
 import React, { useState } from 'react';
-import { Mail, MapPin, Phone, Send, ArrowRight } from 'lucide-react';
+import { Mail, MapPin, ArrowRight } from 'lucide-react';
 
 const Contact: React.FC = () => {
   const [formState, setFormState] = useState({ name: '', email: '', budget: '5k-10k', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate network request
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setError(null);
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formState)
+      });
+
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data?.error || 'Unable to send message right now.');
+      }
+
       setSubmitted(true);
       setFormState({ name: '', email: '', budget: '5k-10k', message: '' });
-    }, 1500);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Something went wrong.';
+      setError(message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -63,7 +82,9 @@ const Contact: React.FC = () => {
                   <Check size={32} />
                 </div>
                 <h3 className="text-3xl font-display font-bold text-white mb-2">RECEIVED</h3>
-                <p className="text-slate-400">We will be in contact shortly.</p>
+                <p className="text-slate-400 max-w-md">
+                  We have your query and a confirmation email is on its way. Expect a tailored response within one working day.
+                </p>
                 <button 
                   onClick={() => setSubmitted(false)} 
                   className="mt-8 text-white border-b border-white hover:text-brand-300 hover:border-brand-300 transition-colors pb-1"
@@ -136,6 +157,9 @@ const Contact: React.FC = () => {
                   {isSubmitting ? 'TRANSMITTING...' : 'SEND MESSAGE'}
                   {!isSubmitting && <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />}
                 </button>
+                {error && (
+                  <p className="text-red-300 text-sm text-center mt-4">{error}</p>
+                )}
               </form>
             )}
           </div>

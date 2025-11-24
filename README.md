@@ -18,3 +18,9 @@ View your app in AI Studio: https://ai.studio/apps/temp/1
 2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
 3. Run the app:
    `npm run dev`
+
+## Contact form email relay
+
+- Configure env vars for the Vercel function: `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `MAIL_FROM`, `MAIL_TO`.
+- The contact form posts to `/api/contact` which forwards the submission to `MAIL_TO` and sends a confirmation email to the user.
+- For local testing run `vercel dev` so the API route is available at `/api/contact`.
