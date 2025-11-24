@@ -37,7 +37,7 @@ const Contact: React.FC = () => {
   };
 
   return (
-    <div className="pt-32 pb-20 min-h-screen bg-slate-950">
+    <div className="pt-32 pb-20 bg-slate-950">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
           
@@ -129,10 +129,10 @@ const Contact: React.FC = () => {
                     onChange={(e) => setFormState({...formState, budget: e.target.value})}
                     className="w-full bg-transparent border-b border-white/20 py-3 text-white focus:outline-none focus:border-brand-300 transition-colors"
                   >
-                      <option value="2k-5k" className="bg-slate-900">£2k - £5k</option>
-                      <option value="5k-10k" className="bg-slate-900">£5k - £10k</option>
-                      <option value="10k-25k" className="bg-slate-900">£10k - £25k</option>
-                      <option value="25k+" className="bg-slate-900">£25k+</option>
+                      <option value="<£500" className="bg-slate-900">Less than £500</option>
+                      <option value="£500-£1000" className="bg-slate-900">£500 - £1000</option>
+                      <option value="£1000-£2500" className="bg-slate-900">£1000 - £2500</option>
+                      <option value="£2500+" className="bg-slate-900">£2500+</option>
                   </select>
                 </div>
 
