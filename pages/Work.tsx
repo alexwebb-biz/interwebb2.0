@@ -1,36 +1,10 @@
-import React from 'react';
+import React from "react";
+import { ArrowUpRight } from "lucide-react";
+import { WorkPeekModal } from "../components/WorkPeekModal";
+import { WorkItem, workItems } from "../data/work";
 
 const Work: React.FC = () => {
-  const works = [
-    {
-      client: "FINTECH SOLUTIONS",
-      title: "Banking Dashboard v2",
-      desc: "A complete redesign of a legacy banking portal focussing on accessibility and speed.",
-      tags: ["UX/UI", "React", "Security"],
-      image: "https://picsum.photos/800/600?random=10"
-    },
-    {
-      client: "ECOLIFE",
-      title: "Sustainable Commerce",
-      desc: "E-commerce platform with custom 3D product configurators.",
-      tags: ["Shopify Plus", "WebGL", "Brand"],
-      image: "https://picsum.photos/800/600?random=11"
-    },
-    {
-      client: "STARTUP AI",
-      title: "Marketing Automation",
-      desc: "SaaS landing page and application dashboard for an AI unicorn.",
-      tags: ["Next.js", "Tailwind", "SaaS"],
-      image: "https://picsum.photos/800/600?random=12"
-    },
-    {
-      client: "GALLERY X",
-      title: "Virtual Exhibition",
-      desc: "Immersive 3D gallery experience for digital artists.",
-      tags: ["Three.js", "WebGL", "Design"],
-      image: "https://picsum.photos/800/600?random=13"
-    }
-  ];
+  const [active, setActive] = React.useState<WorkItem | null>(null);
 
   return (
     <div className="pt-32 pb-20 min-h-screen bg-slate-950">
@@ -43,29 +17,82 @@ const Work: React.FC = () => {
         </div>
 
         <div className="space-y-32">
-          {works.map((work, idx) => (
-            <div key={idx} className="group">
+          {workItems.map((work, idx) => (
+            <div key={work.title} className="group">
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                <div className={`lg:col-span-7 ${idx % 2 === 1 ? 'lg:order-2' : 'lg:order-1'}`}>
-                  <div className="relative overflow-hidden border border-white/10 bg-slate-900">
-                    <div className="absolute inset-0 bg-brand-300/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10 mix-blend-overlay"></div>
-                    <img 
-                      src={work.image} 
-                      alt={work.title} 
-                      className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105 filter grayscale group-hover:grayscale-0"
-                    />
+                <div className={`lg:col-span-7 ${idx % 2 === 1 ? "lg:order-2" : "lg:order-1"}`}>
+                  <div
+                    className="relative overflow-hidden border border-white/10 bg-slate-900 group/video"
+                    style={{ boxShadow: work.accent ? `0 0 0 1px ${work.accent}22` : undefined }}
+                  >
+                    <div
+                      className="absolute inset-x-6 top-6 h-1 rounded-full"
+                      style={{ background: work.accent || "#67e8f9" }}
+                    ></div>
+                    {work.previewVideo ? (
+                      <video
+                        key={work.previewVideo}
+                        className="w-full h-auto object-cover transition-transform duration-700 group-hover/video:scale-105"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                      >
+                        <source src={work.previewVideo} type="video/mp4" />
+                      </video>
+                    ) : (
+                      <img
+                        src={work.image}
+                        alt={work.title}
+                        className="w-full h-auto object-cover transition-transform duration-700 group-hover/video:scale-105 filter grayscale group-hover/video:grayscale-0"
+                      />
+                    )}
+
+                    <div
+                      className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent opacity-0 group-hover/video:opacity-100 transition-opacity duration-500"
+                    ></div>
+
+                    <div className="absolute inset-0 flex flex-col justify-end p-6 gap-3 opacity-0 group-hover/video:opacity-100 transition-opacity duration-300">
+                      <div className="flex items-center justify-between text-xs font-mono text-slate-200">
+                        <span className="px-2 py-1 bg-white/10 border border-white/10 uppercase tracking-[0.18em]">Peek live</span>
+                        <span className="text-slate-300">{work.metric}</span>
+                      </div>
+                      <div className="flex flex-wrap gap-3">
+                        <a
+                          href={work.liveUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-2 px-4 py-2 bg-white text-slate-900 font-semibold uppercase tracking-wider text-xs shadow-lg hover:-translate-y-0.5 transition-transform"
+                        >
+                          View Live
+                          <ArrowUpRight className="w-4 h-4" />
+                        </a>
+                        <button
+                          onClick={() => setActive(work)}
+                          className="inline-flex items-center gap-2 px-4 py-2 border border-white/40 text-white uppercase tracking-wider text-xs backdrop-blur-sm hover:text-brand-300 hover:border-brand-300 transition-colors"
+                        >
+                          Peek
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 
-                <div className={`lg:col-span-5 ${idx % 2 === 1 ? 'lg:order-1' : 'lg:order-2'}`}>
+                <div className={`lg:col-span-5 ${idx % 2 === 1 ? "lg:order-1" : "lg:order-2"}`}>
                   <div className="flex items-center gap-4 mb-4">
                      <span className="text-brand-300 font-mono text-xs tracking-widest uppercase">{work.client}</span>
                      <div className="h-px bg-white/10 flex-grow"></div>
+                     {work.role && (
+                       <span className="px-3 py-1 bg-white/5 border border-white/10 text-slate-200 text-[11px] font-mono uppercase tracking-[0.2em]">
+                         {work.role}
+                       </span>
+                     )}
                   </div>
                   <h2 className="text-3xl md:text-5xl font-display font-bold text-white mb-6">{work.title}</h2>
-                  <p className="text-slate-400 text-lg mb-8 leading-relaxed">{work.desc}</p>
+                  <p className="text-slate-400 text-lg mb-6 leading-relaxed">{work.desc}</p>
                   
-                  <div className="flex flex-wrap gap-2 mb-8">
+                  <div className="flex flex-wrap gap-2 mb-6">
                     {work.tags.map(tag => (
                       <span key={tag} className="px-3 py-1 bg-white/5 border border-white/10 text-slate-300 text-xs font-mono uppercase tracking-wider">
                         {tag}
@@ -73,15 +100,31 @@ const Work: React.FC = () => {
                     ))}
                   </div>
                   
-                  <button className="text-white font-bold uppercase tracking-wider border-b border-brand-300 pb-1 hover:text-brand-300 transition-colors">
-                    View Case Study
-                  </button>
+                  <div className="flex gap-3">
+                    <a
+                      href={work.liveUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-white font-bold uppercase tracking-wider border-b border-brand-300 pb-1 hover:text-brand-300 transition-colors inline-flex items-center gap-2"
+                    >
+                      View Live
+                      <ArrowUpRight className="w-4 h-4" />
+                    </a>
+                    <button
+                      onClick={() => setActive(work)}
+                      className="text-slate-300 font-bold uppercase tracking-wider border-b border-white/30 pb-1 hover:text-brand-300 hover:border-brand-300 transition-colors"
+                    >
+                      Peek inside
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           ))}
         </div>
       </div>
+
+      <WorkPeekModal active={active} onClose={() => setActive(null)} />
     </div>
   );
 };
