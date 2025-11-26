@@ -93,25 +93,14 @@ const Home: React.FC = () => {
                     style={{ background: p.accent || "#67e8f9" }}
                   ></div>
 
-                  {p.previewVideo ? (
-                    <video
-                      key={p.previewVideo}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover/video:scale-105"
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      preload="metadata"
-                    >
-                      <source src={p.previewVideo} type="video/mp4" />
-                    </video>
-                  ) : (
-                    <img
-                      src={p.image}
-                      alt={p.title}
-                      className="w-full h-full object-cover transition-transform duration-500 grayscale group-hover/video:grayscale-0 group-hover/video:scale-105"
-                    />
-                  )}
+                  <iframe
+                    src={p.liveUrl}
+                    title={`${p.title} live preview`}
+                    loading="lazy"
+                    referrerPolicy="no-referrer-when-downgrade"
+                    className="absolute inset-0 w-full h-full border-0 pointer-events-none transition-transform duration-700 group-hover/video:scale-105 group-hover/video:grayscale-0"
+                    allow="clipboard-write; encrypted-media; accelerometer; gyroscope; picture-in-picture; fullscreen"
+                  ></iframe>
 
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent opacity-0 group-hover/video:opacity-100 transition-opacity duration-300"></div>
 

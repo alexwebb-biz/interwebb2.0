@@ -22,32 +22,21 @@ const Work: React.FC = () => {
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
                 <div className={`lg:col-span-7 ${idx % 2 === 1 ? "lg:order-2" : "lg:order-1"}`}>
                   <div
-                    className="relative overflow-hidden border border-white/10 bg-slate-900 group/video"
+                    className="relative overflow-hidden border border-white/10 bg-slate-900 group/video aspect-[16/10]"
                     style={{ boxShadow: work.accent ? `0 0 0 1px ${work.accent}22` : undefined }}
                   >
                     <div
                       className="absolute inset-x-6 top-6 h-1 rounded-full"
                       style={{ background: work.accent || "#67e8f9" }}
                     ></div>
-                    {work.previewVideo ? (
-                      <video
-                        key={work.previewVideo}
-                        className="w-full h-auto object-cover transition-transform duration-700 group-hover/video:scale-105"
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        preload="metadata"
-                      >
-                        <source src={work.previewVideo} type="video/mp4" />
-                      </video>
-                    ) : (
-                      <img
-                        src={work.image}
-                        alt={work.title}
-                        className="w-full h-auto object-cover transition-transform duration-700 group-hover/video:scale-105 filter grayscale group-hover/video:grayscale-0"
-                      />
-                    )}
+                    <iframe
+                      src={work.liveUrl}
+                      title={`${work.title} live preview`}
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      className="absolute inset-0 w-full h-full border-0 pointer-events-none transition-transform duration-700 group-hover/video:scale-105 grayscale group-hover/video:grayscale-0"
+                      allow="clipboard-write; encrypted-media; accelerometer; gyroscope; picture-in-picture; fullscreen"
+                    ></iframe>
 
                     <div
                       className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent opacity-0 group-hover/video:opacity-100 transition-opacity duration-500"
