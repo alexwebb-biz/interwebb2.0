@@ -26,6 +26,7 @@ const ChatWidget: React.FC = () => {
   });
 
   const [showIdentityForm, setShowIdentityForm] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
@@ -70,6 +71,13 @@ const ChatWidget: React.FC = () => {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [state.messages, state.open]);
+
+  useEffect(() => {
+    const updateMobile = () => setIsMobile(window.innerWidth < 640);
+    updateMobile();
+    window.addEventListener('resize', updateMobile);
+    return () => window.removeEventListener('resize', updateMobile);
+  }, []);
 
   const fetchThreadMessages = async () => {
     if (!state.threadId || !state.email) return;
@@ -144,7 +152,13 @@ const ChatWidget: React.FC = () => {
       </button>
 
       {state.open && (
-        <div className="fixed bottom-24 right-6 z-40 w-80 max-w-[90vw] bg-slate-950 border border-white/10 rounded-xl shadow-2xl flex flex-col overflow-hidden">
+        <div
+          className={`fixed z-40 bg-slate-950 border border-white/10 rounded-xl shadow-2xl flex flex-col overflow-hidden ${
+            isMobile
+              ? 'inset-x-3 bottom-20 top-20 max-h-[80vh]'
+              : 'bottom-24 right-6 w-80 max-w-[90vw]'
+          }`}
+        >
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-white/5">
             <div>
               <p className="text-xs uppercase tracking-[0.28em] text-brand-300 font-mono">Chat</p>
