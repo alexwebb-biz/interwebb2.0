@@ -10,6 +10,7 @@ import Contact from './pages/Contact';
 import About from './pages/About';
 import Admin from './pages/Admin';
 import { AnimatePresence, motion } from 'framer-motion';
+import ChatWidget from './components/ChatWidget';
 
 // Wrapper to handle scroll to top on route change
 const ScrollToTop = () => {
@@ -61,6 +62,7 @@ const App: React.FC = () => {
           <AnimatedRoutes />
         </main>
         <Footer />
+        <ChatWidget />
       </div>
     </HashRouter>
   );

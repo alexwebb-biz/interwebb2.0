@@ -14,6 +14,8 @@ const Admin: React.FC = () => {
   const [loadingThreads, setLoadingThreads] = useState(false);
   const [loadingThread, setLoadingThread] = useState(false);
   const [composer, setComposer] = useState('');
+  const [sendEmail, setSendEmail] = useState(true);
+  const [sendChat, setSendChat] = useState(false);
   const [search, setSearch] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loginError, setLoginError] = useState<string | null>(null);
@@ -72,9 +74,10 @@ const Admin: React.FC = () => {
         body: JSON.stringify({
           threadId: selectedThread.thread.id,
           message: composer,
-          channel: 'email',
+          channel: sendChat && sendEmail ? 'both' : sendChat ? 'chat' : 'email',
           toEmail: selectedThread.thread.user_email,
-          toName: selectedThread.thread.user_name
+          toName: selectedThread.thread.user_name,
+          sendEmail
         })
       });
 
@@ -250,6 +253,26 @@ const Admin: React.FC = () => {
                     placeholder="Type your reply..."
                     className="w-full bg-transparent border border-white/10 rounded p-3 focus:outline-none"
                   />
+                  <div className="flex items-center gap-4 mt-2 text-sm text-slate-300">
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={sendEmail}
+                        onChange={(e) => setSendEmail(e.target.checked)}
+                        className="accent-brand-300"
+                      />
+                      Send via email
+                    </label>
+                    <label className="flex items-center gap-2 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={sendChat}
+                        onChange={(e) => setSendChat(e.target.checked)}
+                        className="accent-brand-300"
+                      />
+                      Send to chat widget
+                    </label>
+                  </div>
                   <div className="flex justify-end mt-2">
                     <button
                       onClick={sendReply}

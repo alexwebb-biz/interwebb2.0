@@ -53,28 +53,40 @@ export default async function handler(req: any, res: any) {
   if (req.method === 'POST') {
     try {
       const body = typeof req.body === 'string' ? JSON.parse(req.body || '{}') : req.body || {};
-      const { threadId, message, channel = 'email', toEmail, toName, subject } = body;
+      const { threadId, message, channel = 'email', toEmail, toName, subject, sendEmail = true } = body;
 
       if (!threadId || !message) {
         res.status(400).json({ error: 'threadId and message are required' });
         return;
       }
 
-      await insertMessage({
-        threadId,
-        senderType: 'admin',
-        channel,
-        body: message,
-        metadata: {}
-      });
+      if (channel === 'chat' || channel === 'both') {
+        await insertMessage({
+          threadId,
+          senderType: 'admin',
+          channel: 'chat',
+          body: message,
+          metadata: {}
+        });
+      }
 
-      if (channel === 'email' && toEmail) {
+      if ((channel === 'email' || channel === 'both') && toEmail && sendEmail) {
         await transporter.sendMail({
           from: process.env.MAIL_FROM,
           to: toEmail,
           subject: subject || 'Reply from Interwebb',
           html: renderAdminReplyEmail({ toName: toName || 'there', body: message, subject }),
           text: message
+        });
+      }
+
+      if (channel === 'email') {
+        await insertMessage({
+          threadId,
+          senderType: 'admin',
+          channel: 'email',
+          body: message,
+          metadata: {}
         });
       }
 
