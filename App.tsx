@@ -8,6 +8,7 @@ import Services from './pages/Services';
 import Work from './pages/Work';
 import Contact from './pages/Contact';
 import About from './pages/About';
+import Admin from './pages/Admin';
 import { AnimatePresence, motion } from 'framer-motion';
 
 // Wrapper to handle scroll to top on route change
@@ -44,6 +45,7 @@ const AnimatedRoutes = () => {
         <Route path="/work" element={<PageWrapper><Work /></PageWrapper>} />
         <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
         <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
+        <Route path="/admin" element={<PageWrapper><Admin /></PageWrapper>} />
       </Routes>
     </AnimatePresence>
   );
