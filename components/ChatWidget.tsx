@@ -136,7 +136,7 @@ const ChatWidget: React.FC = () => {
         href="https://wa.me/447765718094"
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-[128px] right-6 z-40 bg-green-500 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg hover:bg-green-600 transition"
+        className="fixed bottom-[100px] right-6 z-40 bg-green-500 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg hover:bg-green-600 transition"
         aria-label="Chat on WhatsApp"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
