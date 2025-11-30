@@ -66,7 +66,7 @@ const Contact: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="text-white font-bold uppercase mb-1">HQ</h3>
-                  <p className="text-slate-400">Shoreditch, London, UK</p>
+                  <p className="text-slate-400">Wrexham, Wales, UK.</p>
                 </div>
               </div>
             </div>

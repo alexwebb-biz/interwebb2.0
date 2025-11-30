@@ -89,3 +89,89 @@ export const renderAdminReplyEmail = (payload: { toName: string; body: string; s
     </div>
   </div>
 `;
+
+export const renderOwnerQuoteEmail = (payload: {
+  email: string;
+  items: string[];
+  total: string;
+  monthly?: string;
+  note?: string;
+}) => `
+  <div style="font-family: 'Inter', Arial, sans-serif; background:#0f172a; color:#e2e8f0; padding:32px;">
+    <div style="max-width:720px;margin:0 auto;border:1px solid rgba(255,255,255,0.08);background:linear-gradient(135deg,#0f172a 0%,#0c1326 50%,#0f172a 100%);">
+      <div style="padding:24px 28px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;">
+        <div>
+          <p style="color:#67e8f9;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;margin:0 0 8px;">Quote builder</p>
+          <h1 style="font-size:22px;line-height:1.4;color:#fff;margin:0;">New lock-in request</h1>
+        </div>
+        <div style="padding:10px 14px;border:1px solid rgba(255,255,255,0.12);color:#67e8f9;text-transform:uppercase;font-size:12px;letter-spacing:0.16em;">
+          Email: ${payload.email}
+        </div>
+      </div>
+      <div style="padding:24px 28px;">
+        <p style="margin:0 0 12px;color:#cbd5e1;font-size:15px;line-height:1.6;">
+          The visitor locked in the following items:
+        </p>
+        <ul style="margin:0 0 16px;padding:0;list-style:none;">
+          ${payload.items
+            .map(
+              (item) => `
+              <li style="padding:10px 12px;margin-bottom:8px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);color:#e2e8f0;font-size:15px;line-height:1.4;">
+                ${item}
+              </li>`
+            )
+            .join('')}
+        </ul>
+        <div style="padding:14px 16px;border:1px solid rgba(255,255,255,0.12);background:rgba(103,232,249,0.08);color:#67e8f9;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;">
+          Estimated total: ${payload.total}
+          ${payload.monthly ? `<div style="margin-top:6px;font-size:13px;letter-spacing:0.08em;">+ ${payload.monthly}</div>` : ''}
+        </div>
+        ${
+          payload.note
+            ? `<div style="margin-top:16px;padding:14px 16px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.02);">
+                <p style="margin:0 0 6px;color:#94a3b8;font-size:12px;text-transform:uppercase;letter-spacing:0.14em;">Note</p>
+                <p style="margin:0;color:#e2e8f0;line-height:1.6;font-size:15px;white-space:pre-line;">${payload.note}</p>
+              </div>`
+            : ''
+        }
+      </div>
+    </div>
+  </div>
+`;
+
+export const renderUserQuoteEmail = (payload: { email: string; total: string; monthly?: string; items: string[] }) => `
+  <div style="font-family: 'Inter', Arial, sans-serif; background:#0f172a; color:#e2e8f0; padding:32px;">
+    <div style="max-width:640px;margin:0 auto;border:1px solid rgba(255,255,255,0.06);background:linear-gradient(145deg,#0f172a 0%,#0b1224 50%,#0f172a 100%);">
+      <div style="padding:28px 32px;border-bottom:1px solid rgba(255,255,255,0.06);">
+        <p style="color:#67e8f9;font-size:12px;letter-spacing:0.2em;text-transform:uppercase;margin:0 0 8px;">Quote locked</p>
+        <h1 style="font-size:24px;line-height:1.3;color:#fff;margin:0;">We have your selections</h1>
+      </div>
+      <div style="padding:24px 32px;">
+        <p style="margin:0 0 14px;font-size:15px;color:#cbd5e1;">
+          Thanks for locking in your package. Here&apos;s what you picked:
+        </p>
+        <ul style="margin:0 0 16px;padding:0;list-style:none;">
+          ${payload.items
+            .map(
+              (item) => `
+              <li style="padding:10px 12px;margin-bottom:8px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);color:#e2e8f0;font-size:15px;line-height:1.4;">
+                ${item}
+              </li>`
+            )
+            .join('')}
+        </ul>
+        <div style="padding:14px 16px;border:1px solid rgba(255,255,255,0.12);background:rgba(103,232,249,0.08);color:#67e8f9;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;margin-bottom:12px;">
+          Estimated total: ${payload.total}
+          ${payload.monthly ? `<div style="margin-top:6px;font-size:13px;letter-spacing:0.08em;">+ ${payload.monthly}</div>` : ''}
+        </div>
+        <p style="margin:0;color:#cbd5e1;font-size:15px;line-height:1.6;">
+          We&apos;ll reply to <span style="color:#67e8f9;">${payload.email}</span> shortly to confirm scope and timelines.
+          If you need changes, just reply to this email.
+        </p>
+      </div>
+      <div style="padding:18px 32px;border-top:1px solid rgba(255,255,255,0.06);color:#64748b;font-size:12px;text-transform:uppercase;letter-spacing:0.16em;">
+        Built by Interwebb · London, UK
+      </div>
+    </div>
+  </div>
+`;

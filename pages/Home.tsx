@@ -1,9 +1,10 @@
 import React from "react";
 import Hero from "../components/Hero";
-import { ArrowUpRight, Check, Layers, Zap, Shield } from "lucide-react";
+import { ArrowUpRight, Check } from "lucide-react";
 import { Link } from "react-router-dom";
 import { WorkPeekModal } from "../components/WorkPeekModal";
 import { WorkItem, workItems } from "../data/work";
+import InteractiveQuote from "../components/InteractiveQuote";
 
 const Home: React.FC = () => {
   const [active, setActive] = React.useState<WorkItem | null>(null);
@@ -66,6 +67,8 @@ const Home: React.FC = () => {
           </h2>
         </div>
       </section>
+
+      <InteractiveQuote />
 
       {/* Recent Work */}
       <section className="py-24 border-b border-white/5 relative">
@@ -154,10 +157,10 @@ const Home: React.FC = () => {
         <div className="absolute inset-0 bg-grid-white bg-[length:30px_30px] opacity-5 pointer-events-none"></div>
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="text-center mb-16">
-            <span className="text-brand-300 font-mono text-xs tracking-widest uppercase mb-2 block">Investment</span>
-            <h2 className="text-3xl md:text-5xl font-display font-bold text-white mb-6">TRANSPARENT PRICING</h2>
+            <span className="text-brand-300 font-mono text-xs tracking-widest uppercase mb-2 block">Pre-built packages</span>
+            <h2 className="text-3xl md:text-5xl font-display font-bold text-white mb-6">PRE-BUILT PACKAGES</h2>
             <p className="text-slate-400 max-w-xl mx-auto">
-              Clear, fixed-cost packages for every stage of business growth. No hidden fees.
+              Prefer a ready-made bundle? Pick a package here. If you want to mix-and-match pieces, use the configure-your-own section above.
             </p>
           </div>
 
