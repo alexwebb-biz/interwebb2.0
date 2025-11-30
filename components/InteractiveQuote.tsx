@@ -108,12 +108,24 @@ const allAddOns = addOnGroups.flatMap((g) => g.items);
 const InteractiveQuote: React.FC = () => {
   const [mainSelection, setMainSelection] = React.useState<MainOption>(mainOptions[0]);
   const [selectedAddOns, setSelectedAddOns] = React.useState<Set<string>>(new Set(["pages-5", "seo"]));
+  const [openGroups, setOpenGroups] = React.useState<Set<string>>(new Set(addOnGroups.map((g) => g.title)));
   const [modalOpen, setModalOpen] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const [note, setNote] = React.useState("");
   const [sending, setSending] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [sent, setSent] = React.useState(false);
+
+  // lock background scroll when modal is open (mobile)
+  React.useEffect(() => {
+    if (modalOpen) {
+      const original = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = original;
+      };
+    }
+  }, [modalOpen]);
 
   const toggleAddOn = (id: string) => {
     setSelectedAddOns((prev) => {
@@ -129,6 +141,17 @@ const InteractiveQuote: React.FC = () => {
 
   const selectAllAddOns = () => setSelectedAddOns(new Set(allAddOns.map((o) => o.id)));
   const resetAddOns = () => setSelectedAddOns(new Set());
+  const toggleGroup = (title: string) => {
+    setOpenGroups((prev) => {
+      const next = new Set(prev);
+      if (next.has(title)) {
+        next.delete(title);
+      } else {
+        next.add(title);
+      }
+      return next;
+    });
+  };
 
   const selectedAddOnItems = allAddOns.filter((o) => selectedAddOns.has(o.id));
   const baseItem = {
@@ -220,14 +243,14 @@ const InteractiveQuote: React.FC = () => {
           </div>
 
           <div className="lg:w-2/3 space-y-8 w-full">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="flex gap-3 overflow-x-auto pb-2 -mx-2 px-2 snap-x snap-mandatory md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0 md:mx-0">
               {mainOptions.map((option) => {
                 const isActive = mainSelection.id === option.id;
                 return (
                   <button
                     key={option.id}
                     onClick={() => setMainSelection(option)}
-                    className={`text-left border rounded-sm p-5 transition-all h-full ${
+                    className={`text-left border rounded-sm p-5 transition-all h-full min-w-[240px] snap-start ${
                       isActive
                         ? "border-brand-300/60 bg-white/5 shadow-[0_20px_60px_-25px_rgba(190,242,100,0.5)]"
                         : "border-white/10 bg-slate-950/60 hover:border-white/30"
@@ -260,59 +283,68 @@ const InteractiveQuote: React.FC = () => {
 
             <div className="space-y-6">
               {addOnGroups.map((group) => (
-                <div key={group.title} className="border border-white/10 bg-slate-950/60 rounded p-5">
-                  <div className="flex items-center justify-between mb-3">
-                    <p className="text-sm font-semibold text-white">{group.title}</p>
-                    <span className="text-xs text-slate-500 uppercase tracking-[0.18em]">
-                      Optional
+                <div key={group.title} className="border border-white/10 bg-slate-950/60 rounded">
+                  <button
+                    type="button"
+                    onClick={() => toggleGroup(group.title)}
+                    className="w-full flex items-center justify-between px-5 py-4"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm font-semibold text-white">{group.title}</span>
+                      <span className="text-xs text-slate-500 uppercase tracking-[0.18em]">Optional</span>
+                    </div>
+                    <span className="text-xs text-slate-400">
+                      {openGroups.has(group.title) ? "Hide" : "Show"}
                     </span>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {group.items.map((item) => {
-                      const isActive = selectedAddOns.has(item.id);
-                      return (
-                        <button
-                          key={item.id}
-                          onClick={() => toggleAddOn(item.id)}
-                          className={`text-left group relative overflow-hidden border rounded-sm p-4 transition-all ${
-                            isActive
-                              ? "border-brand-300/60 bg-white/5"
-                              : "border-white/10 bg-slate-950/60 hover:border-white/30"
-                          }`}
-                        >
-                          <div className="flex items-start justify-between gap-3 mb-2">
-                            <div>
-                              <p className="text-xs uppercase tracking-[0.18em] text-slate-400">
-                                {item.tag || "Add-on"}
-                              </p>
-                              <h4 className="text-lg font-display font-bold text-white">
-                                {item.name}
-                              </h4>
+                  </button>
+                  {openGroups.has(group.title) && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 px-5 pb-5">
+                      {group.items.map((item) => {
+                        const isActive = selectedAddOns.has(item.id);
+                        return (
+                          <button
+                            key={item.id}
+                            onClick={() => toggleAddOn(item.id)}
+                            className={`text-left group relative overflow-hidden border rounded-sm p-4 transition-all ${
+                              isActive
+                                ? "border-brand-300/60 bg-white/5"
+                                : "border-white/10 bg-slate-950/60 hover:border-white/30"
+                            }`}
+                          >
+                            <div className="flex items-start justify-between gap-3 mb-2">
+                              <div>
+                                <p className="text-xs uppercase tracking-[0.18em] text-slate-400">
+                                  {item.tag || "Add-on"}
+                                </p>
+                                <h4 className="text-lg font-display font-bold text-white">
+                                  {item.name}
+                                </h4>
+                              </div>
+                              <div
+                                className={`w-9 h-9 rounded-full border flex items-center justify-center text-sm font-bold ${
+                                  isActive
+                                    ? "border-brand-300 bg-brand-300 text-black"
+                                    : "border-white/20 text-slate-300 group-hover:border-white/40"
+                                }`}
+                              >
+                                {isActive ? <Check className="w-4 h-4" /> : "+"}
+                              </div>
                             </div>
-                            <div
-                              className={`w-9 h-9 rounded-full border flex items-center justify-center text-sm font-bold ${
-                                isActive
-                                  ? "border-brand-300 bg-brand-300 text-black"
-                                  : "border-white/20 text-slate-300 group-hover:border-white/40"
-                              }`}
-                            >
-                              {isActive ? <Check className="w-4 h-4" /> : "+"}
+                            <p className="text-slate-300 text-sm leading-relaxed mb-3">
+                              {item.desc}
+                            </p>
+                            <div className="flex items-center justify-between text-sm">
+                              <span className="text-slate-400">From</span>
+                              <span className="text-base font-mono text-brand-300">
+                                {formatPrice(item.price)}
+                                {item.tag === "Monthly" ? " / mo" : ""}
+                              </span>
                             </div>
-                          </div>
-                          <p className="text-slate-300 text-sm leading-relaxed mb-3">
-                            {item.desc}
-                          </p>
-                          <div className="flex items-center justify-between text-sm">
-                            <span className="text-slate-400">From</span>
-                            <span className="text-base font-mono text-brand-300">
-                              {formatPrice(item.price)}
-                              {item.tag === "Monthly" ? " / mo" : ""}
-                            </span>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -378,15 +410,16 @@ const InteractiveQuote: React.FC = () => {
       </div>
 
       {modalOpen && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center px-4">
-          <div className="max-w-2xl w-full bg-slate-950 border border-white/10 rounded-lg shadow-2xl relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-brand-300/10 via-transparent to-slate-900 pointer-events-none" />
-            <div className="relative p-6 md:p-8">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-xs uppercase tracking-[0.18em] text-brand-300 font-mono">
-                    Lock-in summary
-                  </p>
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 overflow-y-auto">
+          <div className="min-h-full flex items-center justify-center px-4 py-8">
+            <div className="max-w-2xl w-full bg-slate-950 border border-white/10 rounded-lg shadow-2xl relative overflow-hidden max-h-[85vh]">
+              <div className="absolute inset-0 bg-gradient-to-br from-brand-300/10 via-transparent to-slate-900 pointer-events-none" />
+              <div className="relative p-6 md:p-8 overflow-y-auto max-h-[85vh]">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.18em] text-brand-300 font-mono">
+                      Lock-in summary
+                    </p>
                   <h3 className="text-2xl md:text-3xl font-display font-bold text-white">
                     Send this to the team
                   </h3>
