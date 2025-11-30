@@ -18,7 +18,7 @@ type AddOn = {
 };
 
 const formatPrice = (value: number) =>
-  "£" + value.toLocaleString("en-GB", { maximumFractionDigits: 0 });
+  "\u00a3" + value.toLocaleString("en-GB", { maximumFractionDigits: 0 });
 
 const mainOptions: MainOption[] = [
   {
@@ -420,125 +420,126 @@ const InteractiveQuote: React.FC = () => {
                     <p className="text-xs uppercase tracking-[0.18em] text-brand-300 font-mono">
                       Lock-in summary
                     </p>
-                  <h3 className="text-2xl md:text-3xl font-display font-bold text-white">
-                    Send this to the team
-                  </h3>
-                  <p className="text-slate-400 text-sm mt-1">
-                    We&apos;ll email a confirmation and log it in the admin inbox.
-                  </p>
-                </div>
-                <button
-                  onClick={() => {
-                    setModalOpen(false);
-                    setError(null);
-                    setSent(false);
-                  }}
-                  className="text-slate-400 hover:text-white transition-colors"
-                  aria-label="Close"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                <div className="border border-white/10 bg-white/5 rounded p-4">
-                  <p className="text-xs uppercase tracking-[0.18em] text-slate-400 mb-2">
-                    Items selected
-                  </p>
-                  {selectedItems.length ? (
-                    <ul className="space-y-3">
-                      {selectedItems.map((item) => (
-                        <li key={item.id} className="flex justify-between items-start text-sm text-slate-200">
-                          <div>
-                            <p className="font-semibold text-white">{item.name}</p>
-                            <p className="text-slate-500 text-xs">{item.desc}</p>
-                            {item.tag === "Monthly" && (
-                              <span className="inline-block mt-1 text-[10px] uppercase tracking-[0.18em] text-brand-300">
-                                Monthly
-                              </span>
-                            )}
-                          </div>
-                          <span className="font-mono text-brand-300">
-                            {formatPrice(item.price)}
-                            {item.tag === "Monthly" ? " / mo" : ""}
-                          </span>
-                        </li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p className="text-slate-500 text-sm">
-                      Choose a package to see the summary.
+                    <h3 className="text-2xl md:text-3xl font-display font-bold text-white">
+                      Send this to the team
+                    </h3>
+                    <p className="text-slate-400 text-sm mt-1">
+                      We&apos;ll email a confirmation and log it in the admin inbox.
                     </p>
-                  )}
-                  <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
-                    <span className="text-xs uppercase tracking-[0.18em] text-slate-400">
-                      Estimated total
-                    </span>
-                    <div className="text-right">
-                      <span className="block text-2xl font-mono text-brand-300">
-                        {formatPrice(oneOffTotal)}
+                  </div>
+                  <button
+                    onClick={() => {
+                      setModalOpen(false);
+                      setError(null);
+                      setSent(false);
+                    }}
+                    className="text-slate-400 hover:text-white transition-colors"
+                    aria-label="Close"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                  <div className="border border-white/10 bg-white/5 rounded p-4">
+                    <p className="text-xs uppercase tracking-[0.18em] text-slate-400 mb-2">
+                      Items selected
+                    </p>
+                    {selectedItems.length ? (
+                      <ul className="space-y-3">
+                        {selectedItems.map((item) => (
+                          <li key={item.id} className="flex justify-between items-start text-sm text-slate-200">
+                            <div>
+                              <p className="font-semibold text-white">{item.name}</p>
+                              <p className="text-slate-500 text-xs">{item.desc}</p>
+                              {item.tag === "Monthly" && (
+                                <span className="inline-block mt-1 text-[10px] uppercase tracking-[0.18em] text-brand-300">
+                                  Monthly
+                                </span>
+                              )}
+                            </div>
+                            <span className="font-mono text-brand-300">
+                              {formatPrice(item.price)}
+                              {item.tag === "Monthly" ? " / mo" : ""}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-slate-500 text-sm">
+                        Choose a package to see the summary.
+                      </p>
+                    )}
+                    <div className="mt-4 pt-4 border-t border-white/10 flex items-center justify-between">
+                      <span className="text-xs uppercase tracking-[0.18em] text-slate-400">
+                        Estimated total
                       </span>
-                      {monthlyTotal > 0 && (
-                        <span className="block text-sm font-mono text-brand-300">
-                          + {formatPrice(monthlyTotal)} / month
+                      <div className="text-right">
+                        <span className="block text-2xl font-mono text-brand-300">
+                          {formatPrice(oneOffTotal)}
                         </span>
-                      )}
+                        {monthlyTotal > 0 && (
+                          <span className="block text-sm font-mono text-brand-300">
+                            + {formatPrice(monthlyTotal)} / month
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                <form className="space-y-4" onSubmit={handleSubmit}>
-                  <div>
-                    <label className="block text-xs uppercase tracking-[0.18em] text-slate-500 mb-2">
-                      Your email
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="you@company.com"
-                      className="w-full bg-transparent border border-white/15 rounded px-3 py-3 text-white focus:outline-none focus:border-brand-300"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs uppercase tracking-[0.18em] text-slate-500 mb-2">
-                      Notes (optional)
-                    </label>
-                    <textarea
-                      rows={3}
-                      value={note}
-                      onChange={(e) => setNote(e.target.value)}
-                      placeholder="Share deadlines, must-haves, or context."
-                      className="w-full bg-transparent border border-white/15 rounded px-3 py-3 text-white focus:outline-none focus:border-brand-300 resize-none"
-                    ></textarea>
-                  </div>
+                  <form className="space-y-4" onSubmit={handleSubmit}>
+                    <div>
+                      <label className="block text-xs uppercase tracking-[0.18em] text-slate-500 mb-2">
+                        Your email
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="you@company.com"
+                        className="w-full bg-transparent border border-white/15 rounded px-3 py-3 text-white focus:outline-none focus:border-brand-300"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs uppercase tracking-[0.18em] text-slate-500 mb-2">
+                        Notes (optional)
+                      </label>
+                      <textarea
+                        rows={3}
+                        value={note}
+                        onChange={(e) => setNote(e.target.value)}
+                        placeholder="Share deadlines, must-haves, or context."
+                        className="w-full bg-transparent border border-white/15 rounded px-3 py-3 text-white focus:outline-none focus:border-brand-300 resize-none"
+                      ></textarea>
+                    </div>
 
-                  {error && <p className="text-sm text-red-300">{error}</p>}
-                  {sent && (
-                    <p className="text-sm text-brand-300">
-                      Sent. Check your inbox for confirmation.
-                    </p>
-                  )}
-
-                  <button
-                    type="submit"
-                    disabled={sending || !mainSelection}
-                    className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-brand-300 text-black font-bold uppercase tracking-wide rounded hover:bg-brand-400 transition disabled:opacity-50"
-                  >
-                    {sending ? (
-                      <>
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                        Sending...
-                      </>
-                    ) : (
-                      <>
-                        Send request
-                        <ArrowRight className="w-4 h-4" />
-                      </>
+                    {error && <p className="text-sm text-red-300">{error}</p>}
+                    {sent && (
+                      <p className="text-sm text-brand-300">
+                        Sent. Check your inbox for confirmation.
+                      </p>
                     )}
-                  </button>
-                </form>
+
+                    <button
+                      type="submit"
+                      disabled={sending || !mainSelection}
+                      className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-brand-300 text-black font-bold uppercase tracking-wide rounded hover:bg-brand-400 transition disabled:opacity-50"
+                    >
+                      {sending ? (
+                        <>
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          Sending...
+                        </>
+                      ) : (
+                        <>
+                          Send request
+                          <ArrowRight className="w-4 h-4" />
+                        </>
+                      )}
+                    </button>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
