@@ -17,27 +17,27 @@ type AddOn = {
   tag?: string;
 };
 
-const formatPrice = (value: number) =>
-  "\u00a3" + value.toLocaleString("en-GB", { maximumFractionDigits: 0 });
+const formatPrice = (value: number | undefined | null) =>
+  "\u00a3" + Number(value ?? 0).toLocaleString("en-GB", { maximumFractionDigits: 0 });
 
 const mainOptions: MainOption[] = [
   {
-    id: "custom",
-    name: "Custom Website",
-    desc: "Bespoke design and build from scratch, aligned to your goals.",
+    id: "starter",
+    name: "Starter Website",
+    desc: "Clean 5-page site for local/solo trades (joiners, salons, startups).",
     basePrice: 550,
     tag: "Most picked",
   },
   {
-    id: "crm",
-    name: "CRM Website",
-    desc: "Lead capture wired to your CRM with automations for follow-up.",
+    id: "growth",
+    name: "Growth + CRM",
+    desc: "Lead capture wired to CRM, nurturing flows, and conversion polish.",
     basePrice: 620,
   },
   {
     id: "commerce",
-    name: "Online Store",
-    desc: "Product catalogue, checkout, and launch collateral to start selling.",
+    name: "Commerce / Portal",
+    desc: "Sell online with checkout, bookings, or a light client portal.",
     basePrice: 580,
   },
 ];
@@ -104,6 +104,63 @@ const addOnGroups: { title: string; items: AddOn[] }[] = [
 ];
 
 const allAddOns = addOnGroups.flatMap((g) => g.items);
+const addOns = allAddOns;
+
+type SelectionSummary = {
+  base: { price: number; name: string };
+  addOns: AddOn[];
+};
+
+const calcTotals = (selection: SelectionSummary) => {
+  const monthly = selection.addOns.filter((a) => a.tag === "Monthly");
+  const oneOff = selection.addOns.filter((a) => a.tag !== "Monthly");
+  const oneOffTotal = oneOff.reduce((sum, a) => sum + a.price, selection.base.price);
+  const monthlyTotal = monthly.reduce((sum, a) => sum + a.price, 0);
+  return { oneOffTotal, monthlyTotal };
+};
+
+const QuoteChip = ({
+  active,
+  label,
+  price,
+  onClick,
+}: {
+  active?: boolean;
+  label: string;
+  price?: string;
+  onClick?: () => void;
+}) => (
+  <button
+    onClick={onClick}
+    className={`px-4 py-2 rounded-full border text-sm whitespace-nowrap ${
+      active ? "bg-brand-300 text-black border-brand-300" : "border-white/15 text-slate-200"
+    }`}
+  >
+    {label}
+    {price && <span className="ml-2 font-mono text-xs opacity-80">{price}</span>}
+  </button>
+);
+
+const TotalBar = ({ selection }: { selection: SelectionSummary }) => {
+  const { oneOffTotal, monthlyTotal } = calcTotals(selection);
+  return (
+    <div className="flex items-center justify-between bg-slate-900/80 border border-white/10 rounded-lg px-4 py-3">
+      <div>
+        <p className="text-[11px] uppercase tracking-[0.18em] text-slate-400">Estimated</p>
+        <p className="text-xl font-mono text-brand-300">{formatPrice(oneOffTotal)}</p>
+        {monthlyTotal > 0 && (
+          <p className="text-sm font-mono text-brand-300">+ {formatPrice(monthlyTotal)} / month</p>
+        )}
+      </div>
+      <div className="text-right text-xs text-slate-400">
+        <p>{selection.base.name}</p>
+        <p className="text-slate-500">
+          {selection.addOns.length} add-on{selection.addOns.length === 1 ? "" : "s"}
+        </p>
+      </div>
+    </div>
+  );
+};
 
 const InteractiveQuote: React.FC = () => {
   const [mainSelection, setMainSelection] = React.useState<MainOption>(mainOptions[0]);
@@ -139,6 +196,21 @@ const InteractiveQuote: React.FC = () => {
     });
   };
 
+  const toggleAddOnById = (id: string) => {
+    const addon = addOns.find((a) => a.id === id);
+    if (!addon) return;
+    const active = selectedAddOns.has(id);
+    setSelectedAddOns((prev) => {
+      const next = new Set(prev);
+      if (active) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  };
+
   const selectAllAddOns = () => setSelectedAddOns(new Set(allAddOns.map((o) => o.id)));
   const resetAddOns = () => setSelectedAddOns(new Set());
   const toggleGroup = (title: string) => {
@@ -161,6 +233,7 @@ const InteractiveQuote: React.FC = () => {
     price: mainSelection.basePrice,
   };
   const selectedItems = [baseItem, ...selectedAddOnItems];
+  const selectionSummary: SelectionSummary = { base: baseItem, addOns: selectedAddOnItems };
 
   const monthlyItems = selectedItems.filter((item) => item.tag === "Monthly");
   const monthlyTotal = monthlyItems.reduce((sum, item) => sum + item.price, 0);
@@ -214,7 +287,8 @@ const InteractiveQuote: React.FC = () => {
     <section className="py-28 border-b border-white/5 relative overflow-hidden">
       <div className="absolute inset-0 bg-gradient-to-br from-brand-300/5 via-slate-900 to-slate-950 opacity-80 pointer-events-none" />
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="flex flex-col lg:flex-row gap-12 items-start">
+        {/* Desktop layout (unchanged) */}
+        <div className="hidden md:flex flex-col lg:flex-row gap-12 items-start">
           <div className="lg:w-1/3 space-y-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs uppercase tracking-[0.18em] text-slate-200">
               <Sparkles className="w-4 h-4 text-brand-300" />
@@ -403,6 +477,84 @@ const InteractiveQuote: React.FC = () => {
               className="inline-flex items-center gap-3 px-6 py-3 border border-brand-300 text-brand-300 uppercase tracking-wide font-bold hover:bg-brand-300 hover:text-black transition-colors disabled:opacity-50"
             >
               Lock this in
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile timeline layout */}
+        <div className="md:hidden space-y-6">
+          <div className="space-y-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs uppercase tracking-[0.18em] text-slate-200">
+              <Sparkles className="w-4 h-4 text-brand-300" />
+              Configure your own
+            </div>
+            <h2 className="text-3xl font-display font-bold text-white leading-tight">
+              Build in phases. Pick what you need.
+            </h2>
+            <p className="text-slate-400 text-base leading-relaxed">
+              Choose a base package, then toggle the steps in your journey: Plan, Build, Launch, Grow.
+            </p>
+          </div>
+
+          <div className="flex gap-2 overflow-x-auto pb-2">
+            {mainOptions.map((b) => (
+              <QuoteChip
+                key={b.id}
+                label={b.name}
+                price={`from ${formatPrice(b.price)}`}
+                active={mainSelection.id === b.id}
+                onClick={() => setMainSelection(b)}
+              />
+            ))}
+          </div>
+
+          <div className="space-y-3">
+            {[
+              { title: "Plan", addOnIds: ["seo"] },
+              { title: "Build", addOnIds: ["pages-5", "extra-pages"] },
+              { title: "Launch", addOnIds: ["blog", "payments"] },
+              { title: "Grow", addOnIds: ["crm-sync", "support"] },
+            ].map((phase, idx) => (
+              <div key={phase.title} className="border border-white/10 rounded-lg p-3">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="w-6 h-6 rounded-full border border-brand-300 text-brand-300 flex items-center justify-center text-xs font-bold">
+                    {idx + 1}
+                  </span>
+                  <p className="text-sm font-semibold text-white">{phase.title}</p>
+                </div>
+                <div className="flex gap-2 flex-wrap">
+                  {phase.addOnIds.map((id) => {
+                    const addon = addOns.find((a) => a.id === id)!;
+                    const active = selectedAddOns.has(id);
+                    return (
+                      <QuoteChip
+                        key={id}
+                        label={addon.name}
+                        price={
+                          addon.tag === "Monthly" ? `${formatPrice(addon.price)}/mo` : formatPrice(addon.price)
+                        }
+                        active={active}
+                        onClick={() => toggleAddOnById(id)}
+                      />
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="space-y-3">
+            <TotalBar selection={selectionSummary} />
+            <button
+              onClick={() => {
+                setModalOpen(true);
+                setError(null);
+                setSent(false);
+              }}
+              className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-brand-300 text-black font-bold uppercase tracking-wide rounded hover:bg-brand-400 transition"
+            >
+              Review & send
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
