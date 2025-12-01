@@ -1,110 +1,21 @@
 import React from "react";
 import { Check, ArrowRight, Sparkles, X, Loader2 } from "lucide-react";
-
-type MainOption = {
-  id: string;
-  name: string;
-  desc: string;
-  basePrice: number;
-  tag?: string;
-};
-
-type AddOn = {
-  id: string;
-  name: string;
-  desc: string;
-  price: number;
-  tag?: string;
-};
+import { AddOn, MainOption, defaultAddOns, defaultMainOptions } from "../data/quoteOptions";
 
 const formatPrice = (value: number | undefined | null) =>
   "\u00a3" + Number(value ?? 0).toLocaleString("en-GB", { maximumFractionDigits: 0 });
+const groupAddOns = (addons: AddOn[]) => {
+  const map = new Map<string, AddOn[]>();
+  addons.forEach((addon) => {
+    const title = (addon as any).group || "Other";
+    if (!map.has(title)) map.set(title, []);
+    map.get(title)!.push(addon);
+  });
+  return Array.from(map.entries()).map(([title, items]) => ({ title, items }));
+};
 
-const mainOptions: MainOption[] = [
-  {
-    id: "starter",
-    name: "Starter Website",
-    desc: "Clean 5-page site for local/solo trades (joiners, salons, startups).",
-    basePrice: 550,
-    tag: "Most picked",
-  },
-  {
-    id: "growth",
-    name: "Growth + CRM",
-    desc: "Lead capture wired to CRM, nurturing flows, and conversion polish.",
-    basePrice: 620,
-  },
-  {
-    id: "commerce",
-    name: "Commerce / Portal",
-    desc: "Sell online with checkout, bookings, or a light client portal.",
-    basePrice: 580,
-  },
-];
-
-const addOnGroups: { title: string; items: AddOn[] }[] = [
-  {
-    title: "Essentials",
-    items: [
-      {
-        id: "pages-5",
-        name: "5-Page Build",
-        desc: "Design + build up to 5 key pages with responsive layouts.",
-        price: 260,
-      },
-      {
-        id: "extra-pages",
-        name: "2 Extra Pages",
-        desc: "Add two more custom pages to the build.",
-        price: 90,
-      },
-      {
-        id: "blog",
-        name: "Blog / CMS",
-        desc: "Blog templates and an easy publishing workflow.",
-        price: 120,
-      },
-    ],
-  },
-  {
-    title: "Growth",
-    items: [
-      {
-        id: "seo",
-        name: "SEO & Performance",
-        desc: "Technical tidy-up, on-page basics, and speed passes.",
-        price: 130,
-      },
-      {
-        id: "crm-sync",
-        name: "CRM Automations",
-        desc: "Sync forms to your CRM with tags, routing, and notifications.",
-        price: 110,
-      },
-      {
-        id: "payments",
-        name: "Bookings / Payments",
-        desc: "Stripe/booking flow for calls, sessions, or simple payments.",
-        price: 140,
-      },
-    ],
-  },
-  {
-    title: "Support",
-    items: [
-      {
-        id: "support",
-        name: "Ongoing Support",
-        desc: "Monthly updates, monitoring, and small fixes (5 hours/mo).",
-        price: 120,
-        tag: "Monthly",
-      },
-    ],
-  },
-];
-
-const allAddOns = addOnGroups.flatMap((g) => g.items);
-const addOns = allAddOns;
+const mainOptions: MainOption[] = defaultMainOptions;
+const allAddOns: AddOn[] = defaultAddOns;
 
 type SelectionSummary = {
   base: { price: number; name: string };
@@ -127,7 +38,7 @@ const QuoteChip = ({
 }: {
   active?: boolean;
   label: string;
-  price?: string;
+  price?: React.ReactNode;
   onClick?: () => void;
 }) => (
   <button
@@ -163,8 +74,12 @@ const TotalBar = ({ selection }: { selection: SelectionSummary }) => {
 };
 
 const InteractiveQuote: React.FC = () => {
-  const [mainSelection, setMainSelection] = React.useState<MainOption>(mainOptions[0]);
-  const [selectedAddOns, setSelectedAddOns] = React.useState<Set<string>>(new Set(["pages-5", "seo"]));
+  const [packages, setPackages] = React.useState<MainOption[]>(mainOptions);
+  const [addOns, setAddOns] = React.useState<AddOn[]>(allAddOns);
+  const addOnGroups = React.useMemo(() => groupAddOns(addOns), [addOns]);
+
+  const [mainSelection, setMainSelection] = React.useState<MainOption>(packages[0]);
+  const [selectedAddOns, setSelectedAddOns] = React.useState<Set<string>>(new Set(["seo-lite"]));
   const [openGroups, setOpenGroups] = React.useState<Set<string>>(new Set(addOnGroups.map((g) => g.title)));
   const [modalOpen, setModalOpen] = React.useState(false);
   const [email, setEmail] = React.useState("");
@@ -172,6 +87,55 @@ const InteractiveQuote: React.FC = () => {
   const [sending, setSending] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [sent, setSent] = React.useState(false);
+
+  React.useEffect(() => {
+    const load = async () => {
+      try {
+        const res = await fetch("/api/quote-options");
+        if (!res.ok) return;
+        const data = await res.json().catch(() => ({}));
+        if (Array.isArray(data.packages) && data.packages.length) {
+          setPackages(data.packages);
+          setMainSelection(data.packages[0]);
+        }
+        if (Array.isArray(data.addons) && data.addons.length) {
+          setAddOns(data.addons);
+        }
+        setOpenGroups(new Set((data.addons ? groupAddOns(data.addons) : addOnGroups).map((g: any) => g.title)));
+      } catch {
+        // keep defaults
+      }
+    };
+    load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  React.useEffect(() => {
+    if (!packages.length) return;
+    setMainSelection((prev) => packages.find((p) => p.id === prev?.id) || packages[0]);
+  }, [packages]);
+
+  const availableAddOns = React.useMemo(
+    () => addOns.filter((addOn) => !addOn.appliesTo || addOn.appliesTo.includes(mainSelection.id)),
+    [addOns, mainSelection]
+  );
+  const allowedAddOnIds = React.useMemo(
+    () => new Set(availableAddOns.map((addOn) => addOn.id)),
+    [availableAddOns]
+  );
+
+  React.useEffect(() => {
+    setSelectedAddOns((prev) => new Set([...prev].filter((id) => allowedAddOnIds.has(id))));
+  }, [allowedAddOnIds]);
+
+  const filteredGroups = React.useMemo(() => {
+    return addOnGroups
+      .map((group) => ({
+        ...group,
+        items: group.items.filter((item) => allowedAddOnIds.has(item.id)),
+      }))
+      .filter((group) => group.items.length > 0);
+  }, [allowedAddOnIds]);
 
   // lock background scroll when modal is open (mobile)
   React.useEffect(() => {
@@ -185,6 +149,7 @@ const InteractiveQuote: React.FC = () => {
   }, [modalOpen]);
 
   const toggleAddOn = (id: string) => {
+    if (!allowedAddOnIds.has(id)) return;
     setSelectedAddOns((prev) => {
       const next = new Set(prev);
       if (next.has(id)) {
@@ -197,7 +162,7 @@ const InteractiveQuote: React.FC = () => {
   };
 
   const toggleAddOnById = (id: string) => {
-    const addon = addOns.find((a) => a.id === id);
+    const addon = availableAddOns.find((a) => a.id === id);
     if (!addon) return;
     const active = selectedAddOns.has(id);
     setSelectedAddOns((prev) => {
@@ -211,7 +176,7 @@ const InteractiveQuote: React.FC = () => {
     });
   };
 
-  const selectAllAddOns = () => setSelectedAddOns(new Set(allAddOns.map((o) => o.id)));
+  const selectAllAddOns = () => setSelectedAddOns(new Set(availableAddOns.map((o) => o.id)));
   const resetAddOns = () => setSelectedAddOns(new Set());
   const toggleGroup = (title: string) => {
     setOpenGroups((prev) => {
@@ -225,7 +190,7 @@ const InteractiveQuote: React.FC = () => {
     });
   };
 
-  const selectedAddOnItems = allAddOns.filter((o) => selectedAddOns.has(o.id));
+  const selectedAddOnItems = availableAddOns.filter((o) => selectedAddOns.has(o.id));
   const baseItem = {
     id: mainSelection.id,
     name: mainSelection.name,
@@ -285,7 +250,6 @@ const InteractiveQuote: React.FC = () => {
 
   return (
     <section className="py-28 border-b border-white/5 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-brand-300/5 via-slate-900 to-slate-950 opacity-80 pointer-events-none" />
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Desktop layout (unchanged) */}
         <div className="hidden md:flex flex-col lg:flex-row gap-12 items-start">
@@ -318,7 +282,7 @@ const InteractiveQuote: React.FC = () => {
 
           <div className="lg:w-2/3 space-y-8 w-full">
             <div className="flex gap-3 overflow-x-auto pb-2 -mx-2 px-2 snap-x snap-mandatory md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0 md:mx-0">
-              {mainOptions.map((option) => {
+              {packages.map((option) => {
                 const isActive = mainSelection.id === option.id;
                 return (
                   <button
@@ -326,8 +290,8 @@ const InteractiveQuote: React.FC = () => {
                     onClick={() => setMainSelection(option)}
                     className={`text-left border rounded-sm p-5 transition-all h-full min-w-[240px] snap-start ${
                       isActive
-                        ? "border-brand-300/60 bg-white/5 shadow-[0_20px_60px_-25px_rgba(190,242,100,0.5)]"
-                        : "border-white/10 bg-slate-950/60 hover:border-white/30"
+                        ? "border-brand-300/60 bg-slate-900/70 shadow-[0_20px_60px_-25px_rgba(190,242,100,0.5)]"
+                        : "border-white/10 bg-slate-900/60 hover:border-white/30"
                     }`}
                   >
                     <div className="flex items-center justify-between mb-3">
@@ -356,7 +320,7 @@ const InteractiveQuote: React.FC = () => {
             </div>
 
             <div className="space-y-6">
-              {addOnGroups.map((group) => (
+              {filteredGroups.map((group) => (
                 <div key={group.title} className="border border-white/10 bg-slate-950/60 rounded">
                   <button
                     type="button"
@@ -381,8 +345,8 @@ const InteractiveQuote: React.FC = () => {
                             onClick={() => toggleAddOn(item.id)}
                             className={`text-left group relative overflow-hidden border rounded-sm p-4 transition-all ${
                               isActive
-                                ? "border-brand-300/60 bg-white/5"
-                                : "border-white/10 bg-slate-950/60 hover:border-white/30"
+                                ? "border-brand-300/60 bg-slate-900/70"
+                                : "border-white/10 bg-slate-900/60 hover:border-white/30"
                             }`}
                           >
                             <div className="flex items-start justify-between gap-3 mb-2">
@@ -423,7 +387,7 @@ const InteractiveQuote: React.FC = () => {
               ))}
             </div>
 
-            <div className="p-6 border border-white/10 bg-slate-950/70 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div className="p-6 border border-white/10 bg-slate-900/70 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
                 <p className="text-xs uppercase tracking-[0.18em] text-slate-400">
                   Estimated investment
@@ -498,11 +462,11 @@ const InteractiveQuote: React.FC = () => {
           </div>
 
           <div className="flex gap-2 overflow-x-auto pb-2">
-            {mainOptions.map((b) => (
+            {packages.map((b) => (
               <QuoteChip
                 key={b.id}
                 label={b.name}
-                price={`from ${formatPrice(b.price)}`}
+                price={`from ${formatPrice(b.basePrice)}`}
                 active={mainSelection.id === b.id}
                 onClick={() => setMainSelection(b)}
               />
@@ -510,32 +474,26 @@ const InteractiveQuote: React.FC = () => {
           </div>
 
           <div className="space-y-3">
-            {[
-              { title: "Plan", addOnIds: ["seo"] },
-              { title: "Build", addOnIds: ["pages-5", "extra-pages"] },
-              { title: "Launch", addOnIds: ["blog", "payments"] },
-              { title: "Grow", addOnIds: ["crm-sync", "support"] },
-            ].map((phase, idx) => (
-              <div key={phase.title} className="border border-white/10 rounded-lg p-3">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="w-6 h-6 rounded-full border border-brand-300 text-brand-300 flex items-center justify-center text-xs font-bold">
-                    {idx + 1}
-                  </span>
-                  <p className="text-sm font-semibold text-white">{phase.title}</p>
+            {filteredGroups.map((group) => (
+              <div key={group.title} className="border border-white/10 rounded-lg p-3">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-sm font-semibold text-white">{group.title}</p>
+                  <span className="text-[10px] uppercase tracking-[0.18em] text-slate-500">Optional</span>
                 </div>
                 <div className="flex gap-2 flex-wrap">
-                  {phase.addOnIds.map((id) => {
-                    const addon = addOns.find((a) => a.id === id)!;
-                    const active = selectedAddOns.has(id);
+                  {group.items.map((addon) => {
+                    const active = selectedAddOns.has(addon.id);
                     return (
                       <QuoteChip
-                        key={id}
+                        key={addon.id}
                         label={addon.name}
                         price={
-                          addon.tag === "Monthly" ? `${formatPrice(addon.price)}/mo` : formatPrice(addon.price)
+                          addon.tag === "Monthly"
+                            ? `${formatPrice(addon.price)}/mo`
+                            : formatPrice(addon.price)
                         }
                         active={active}
-                        onClick={() => toggleAddOnById(id)}
+                        onClick={() => toggleAddOnById(addon.id)}
                       />
                     );
                   })}

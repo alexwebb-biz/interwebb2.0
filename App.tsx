@@ -9,6 +9,7 @@ import Work from './pages/Work';
 import Contact from './pages/Contact';
 import About from './pages/About';
 import Admin from './pages/Admin';
+import Pricing from './pages/Pricing';
 import { AnimatePresence, motion } from 'framer-motion';
 import ChatWidget from './components/ChatWidget';
 
@@ -46,6 +47,7 @@ const AnimatedRoutes = () => {
         <Route path="/work" element={<PageWrapper><Work /></PageWrapper>} />
         <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
         <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
+        <Route path="/pricing" element={<PageWrapper><Pricing /></PageWrapper>} />
         <Route path="/admin" element={<PageWrapper><Admin /></PageWrapper>} />
       </Routes>
     </AnimatePresence>

@@ -4,56 +4,32 @@ import { ArrowUpRight, Check } from "lucide-react";
 import { Link } from "react-router-dom";
 import { WorkPeekModal } from "../components/WorkPeekModal";
 import { WorkItem, workItems } from "../data/work";
+import { packageTiers, PackageTier } from "../data/pricing";
 import InteractiveQuote from "../components/InteractiveQuote";
 
 const Home: React.FC = () => {
   const [active, setActive] = React.useState<WorkItem | null>(null);
   const projects = workItems.slice(0, 4);
+  const [pricing, setPricing] = React.useState<PackageTier[]>(packageTiers);
 
-  const pricing = [
-    {
-      name: "STARTER",
-      price: "£599.00",
-      desc: "Perfect for startups needing a professional, high-impact presence.",
-      features: [
-        "Custom UI/UX Design",
-        "5-Page React Website",
-        "CMS Integration",
-        "Basic SEO Setup",
-        "1 Month Support",
-        "Basic Analytics"
-      ],
-      highlight: false
-    },
-    {
-      name: "GROWTH",
-      price: "£999.00",
-      desc: "For businesses ready to scale with advanced functionality.",
-      features: [
-        "Strategy Workshop",
-        "10+ Pages / Blog",
-        "Advanced Animations",
-        "Conversion Optimization",
-        "Analytics Dashboard",
-        "3 Months Support"
-      ],
-      highlight: true
-    },
-    {
-      name: "ENTERPRISE",
-      price: "£1499.00",
-      desc: "Complex platforms and bespoke digital products.",
-      features: [
-        "Full Product Design",
-        "Custom Web App (SaaS)",
-        "API Integrations",
-        "Scalable Cloud Arch.",
-        "Dedicated Team",
-        "SLA Support"
-      ],
-      highlight: false
-    }
-  ];
+  const formatPrice = (value: number | undefined | null) =>
+    "£" + Number(value ?? 0).toLocaleString("en-GB", { maximumFractionDigits: 0 });
+
+  React.useEffect(() => {
+    const loadPricing = async () => {
+      try {
+        const res = await fetch("/api/pricing");
+        if (!res.ok) return;
+        const data = await res.json().catch(() => ({}));
+        if (Array.isArray(data?.tiers)) {
+          setPricing(data.tiers);
+        }
+      } catch {
+        // ignore and keep fallback
+      }
+    };
+    loadPricing();
+  }, []);
 
   return (
     <div className="min-h-screen bg-slate-950">
@@ -180,8 +156,8 @@ const Home: React.FC = () => {
                   </div>
                 )}
                 <h3 className="text-xl font-display font-bold text-white mb-2">{tier.name}</h3>
-                <div className="text-3xl font-mono text-brand-300 mb-4">{tier.price}</div>
-                <p className="text-slate-400 text-sm mb-8 h-10">{tier.desc}</p>
+                <div className="text-3xl font-mono text-brand-300 mb-4">{formatPrice(tier.price)}</div>
+                <p className="text-slate-400 text-sm mb-8 h-10">{tier.description}</p>
                 
                 <ul className="space-y-4 mb-8">
                   {tier.features.map((feat, idx) => (
