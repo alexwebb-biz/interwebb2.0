@@ -4,7 +4,7 @@ import { AddOn, MainOption } from "../data/quoteOptions";
 export type QuotePackageRow = {
   id: string;
   name: string;
-  desc: string;
+  description: string;
   base_price: number;
   tag?: string | null;
 };
@@ -12,7 +12,7 @@ export type QuotePackageRow = {
 export type QuoteAddOnRow = {
   id: string;
   name: string;
-  desc: string;
+  description: string;
   price: number;
   tag?: string | null;
   applies_to?: string[] | null;
@@ -22,7 +22,7 @@ export type QuoteAddOnRow = {
 const toPackage = (row: QuotePackageRow): MainOption => ({
   id: row.id,
   name: row.name,
-  desc: row.desc,
+  description: row.description,
   basePrice: Number(row.base_price || 0),
   tag: row.tag || undefined,
 });
@@ -30,7 +30,7 @@ const toPackage = (row: QuotePackageRow): MainOption => ({
 const toAddOn = (row: QuoteAddOnRow): AddOn => ({
   id: row.id,
   name: row.name,
-  desc: row.desc,
+  description: row.description,
   price: Number(row.price || 0),
   tag: row.tag || undefined,
   appliesTo: row.applies_to || undefined,
@@ -40,10 +40,10 @@ const toAddOn = (row: QuoteAddOnRow): AddOn => ({
 export const fetchQuoteOptions = async (): Promise<{ packages: MainOption[]; addons: AddOn[] }> => {
   return withDb(async (db) => {
     const packages = await db.query<QuotePackageRow>(
-      `select id, name, "desc" as desc, base_price, tag from quote_packages order by base_price asc;`
+      `select id, name, description, base_price, tag from quote_packages order by base_price asc;`
     );
     const addons = await db.query<QuoteAddOnRow>(
-      `select id, name, "desc" as desc, price, tag, applies_to, group_name from quote_addons order by group_name, price;`
+      `select id, name, description, price, tag, applies_to, group_name from quote_addons order by group_name, price;`
     );
     return { packages: packages.rows.map(toPackage), addons: addons.rows.map(toAddOn) };
   });
@@ -56,24 +56,24 @@ export const upsertQuoteOptions = async (packages: MainOption[], addons: AddOn[]
       await client.query("BEGIN");
       for (const p of packages) {
         await client.query(
-          `insert into quote_packages (id, name, "desc", base_price, tag)
+          `insert into quote_packages (id, name, description, base_price, tag)
            values ($1, $2, $3, $4, $5)
-           on conflict (id) do update set name = excluded.name, desc = excluded.desc, base_price = excluded.base_price, tag = excluded.tag;`,
-          [p.id, p.name, p.desc, p.basePrice, p.tag ?? null]
+           on conflict (id) do update set name = excluded.name, description = excluded.description, base_price = excluded.base_price, tag = excluded.tag;`,
+          [p.id, p.name, p.description, p.basePrice, p.tag ?? null]
         );
       }
       for (const a of addons) {
         await client.query(
-          `insert into quote_addons (id, name, "desc", price, tag, applies_to, group_name)
+          `insert into quote_addons (id, name, description, price, tag, applies_to, group_name)
            values ($1, $2, $3, $4, $5, $6, $7)
            on conflict (id) do update set
              name = excluded.name,
-             desc = excluded.desc,
+             description = excluded.description,
              price = excluded.price,
              tag = excluded.tag,
              applies_to = excluded.applies_to,
              group_name = excluded.group_name;`,
-          [a.id, a.name, a.desc, a.price, a.tag ?? null, a.appliesTo ?? [], a.group]
+          [a.id, a.name, a.description, a.price, a.tag ?? null, a.appliesTo ?? [], a.group]
         );
       }
       await client.query("COMMIT");

@@ -312,7 +312,7 @@ const InteractiveQuote: React.FC = () => {
                       {option.name}
                     </h3>
                     <p className="text-slate-300 text-sm leading-relaxed">
-                      {option.desc}
+                      {option.description}
                     </p>
                   </button>
                 );
@@ -561,7 +561,7 @@ const InteractiveQuote: React.FC = () => {
                           <li key={item.id} className="flex justify-between items-start text-sm text-slate-200">
                             <div>
                               <p className="font-semibold text-white">{item.name}</p>
-                              <p className="text-slate-500 text-xs">{item.desc}</p>
+                              <p className="text-slate-500 text-xs">{item.description}</p>
                               {item.tag === "Monthly" && (
                                 <span className="inline-block mt-1 text-[10px] uppercase tracking-[0.18em] text-brand-300">
                                   Monthly

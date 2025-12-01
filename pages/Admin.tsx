@@ -28,6 +28,8 @@ const Admin: React.FC = () => {
   const [quoteAddons, setQuoteAddons] = useState<AddOn[]>([]);
   const [quoteStatus, setQuoteStatus] = useState<string | null>(null);
   const [quoteLoading, setQuoteLoading] = useState(false);
+  const [showPricingSection, setShowPricingSection] = useState(true);
+  const [showQuoteSection, setShowQuoteSection] = useState(true);
   const updateTier = (index: number, patch: Partial<PackageTier>) => {
     setPricing((prev) =>
       prev.map((tier, i) => (i === index ? { ...tier, ...patch } : tier))
@@ -57,7 +59,7 @@ const Admin: React.FC = () => {
       {
         id: `package-${prev.length + 1}`,
         name: "New Package",
-        desc: "",
+        description: "",
         basePrice: 0,
         tag: "",
       },
@@ -79,7 +81,7 @@ const Admin: React.FC = () => {
       {
         id: `addon-${prev.length + 1}`,
         name: "New Add-on",
-        desc: "",
+        description: "",
         price: 0,
         group: "Quick boosts",
         tag: "",
@@ -146,7 +148,7 @@ const Admin: React.FC = () => {
             slug: t.slug,
             name: t.name,
             price: Number(t.price || 0),
-            description: t.description,
+            description: t.description ?? t.desc ?? "",
             features: Array.isArray(t.features) ? t.features : [],
             highlight: !!t.highlight
           }))
@@ -195,7 +197,7 @@ const Admin: React.FC = () => {
             slug: t.slug,
             name: t.name,
             price: Number(t.price || 0),
-            description: t.description,
+            description: t.description ?? t.desc ?? "",
             features: Array.isArray(t.features) ? t.features : [],
             highlight: !!t.highlight
           }))
@@ -221,7 +223,7 @@ const Admin: React.FC = () => {
           data.packages.map((p: any) => ({
             id: p.id,
             name: p.name,
-            desc: p.desc,
+            description: p.description ?? p.desc ?? "",
             basePrice: Number(p.basePrice ?? p.base_price ?? 0),
             tag: p.tag || "",
           }))
@@ -232,7 +234,7 @@ const Admin: React.FC = () => {
           data.addons.map((a: any) => ({
             id: a.id,
             name: a.name,
-            desc: a.desc,
+            description: a.description ?? a.desc ?? "",
             price: Number(a.price ?? 0),
             tag: a.tag || "",
             appliesTo: Array.isArray(a.appliesTo || a.applies_to) ? (a.appliesTo || a.applies_to) : [],
@@ -278,7 +280,7 @@ const Admin: React.FC = () => {
           data.packages.map((p: any) => ({
             id: p.id,
             name: p.name,
-            desc: p.desc,
+            description: p.description ?? p.desc ?? "",
             basePrice: Number(p.basePrice ?? p.base_price ?? 0),
             tag: p.tag || "",
           }))
@@ -289,7 +291,7 @@ const Admin: React.FC = () => {
           data.addons.map((a: any) => ({
             id: a.id,
             name: a.name,
-            desc: a.desc,
+            description: a.description ?? a.desc ?? "",
             price: Number(a.price ?? 0),
             tag: a.tag || "",
             appliesTo: Array.isArray(a.appliesTo || a.applies_to) ? (a.appliesTo || a.applies_to) : [],
@@ -410,7 +412,7 @@ const Admin: React.FC = () => {
   return (
     <div className="min-h-screen bg-slate-950 text-white pt-24 pb-12">
       <div className="max-w-6xl mx-auto px-6">
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex items-center justify-between mb-6">
           <div>
             <p className="text-xs uppercase tracking-[0.28em] text-brand-300 font-mono mb-2">Admin Console</p>
             <h1 className="text-4xl font-display font-bold">Inbox & Chat</h1>
@@ -732,8 +734,8 @@ const Admin: React.FC = () => {
                     <label className="text-xs text-slate-500 uppercase block mb-1">Description</label>
                     <textarea
                       rows={2}
-                      value={pkg.desc}
-                      onChange={(e) => updateQuotePackage(idx, { desc: e.target.value })}
+                      value={pkg.description}
+                      onChange={(e) => updateQuotePackage(idx, { description: e.target.value })}
                       className="w-full bg-transparent border border-white/10 rounded px-3 py-2 text-sm focus:outline-none resize-none"
                     />
                   </div>
@@ -848,11 +850,11 @@ const Admin: React.FC = () => {
                     <label className="text-[11px] text-slate-500 uppercase block mb-1">Description</label>
                     <textarea
                       rows={2}
-                      value={addon.desc}
-                      onChange={(e) => updateQuoteAddon(idx, { desc: e.target.value })}
-                      className="w-full bg-transparent border border-white/10 rounded px-2 py-2 text-sm focus:outline-none resize-none"
-                    />
-                  </div>
+                    value={addon.description}
+                    onChange={(e) => updateQuoteAddon(idx, { description: e.target.value })}
+                    className="w-full bg-transparent border border-white/10 rounded px-2 py-2 text-sm focus:outline-none resize-none"
+                  />
+                </div>
                   <div className="flex justify-between items-center">
                     <span className="text-[11px] text-slate-500">
                       Applies to: {(addon.appliesTo || []).join(', ') || 'None'}

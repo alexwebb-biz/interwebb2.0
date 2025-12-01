@@ -32,7 +32,16 @@ export default async function handler(req: any, res: any) {
         res.status(400).json({ error: "packages are required" });
         return;
       }
-      await upsertQuoteOptions(packages, addons);
+      await upsertQuoteOptions(
+        packages.map((p: any) => ({
+          ...p,
+          description: p.description ?? p.desc ?? "",
+        })),
+        addons.map((a: any) => ({
+          ...a,
+          description: a.description ?? a.desc ?? "",
+        }))
+      );
       const refreshed = await fetchQuoteOptions();
       res.status(200).json(refreshed);
     } catch (err: any) {
