@@ -155,8 +155,8 @@ const ChatWidget: React.FC = () => {
         <div
           className={`fixed z-40 bg-slate-950 border border-white/10 rounded-xl shadow-2xl flex flex-col overflow-hidden ${
             isMobile
-              ? 'inset-x-3 bottom-20 top-20 max-h-[80vh]'
-              : 'bottom-24 right-6 w-80 max-w-[90vw]'
+              ? 'left-3 right-3 bottom-24 top-[96px] max-h-[60vh]'
+              : 'bottom-24 right-6 w-[420px] max-w-[90vw] max-h-[60vh]'
           }`}
         >
           <div className="flex items-center justify-between px-4 py-3 border-b border-white/10 bg-white/5">
@@ -199,14 +199,14 @@ const ChatWidget: React.FC = () => {
                   value={state.name}
                   onChange={(e) => setState((s) => ({ ...s, name: e.target.value }))}
                   placeholder="Name"
-                  className="w-full bg-transparent border border-white/10 rounded px-3 py-2 text-sm focus:outline-none"
+                  className="w-full bg-transparent border border-white/10 rounded px-3 py-2 text-base md:text-sm focus:outline-none"
                 />
                 <input
                   type="email"
                   value={state.email}
                   onChange={(e) => setState((s) => ({ ...s, email: e.target.value }))}
                   placeholder="Email"
-                  className="w-full bg-transparent border border-white/10 rounded px-3 py-2 text-sm focus:outline-none"
+                  className="w-full bg-transparent border border-white/10 rounded px-3 py-2 text-base md:text-sm focus:outline-none"
                 />
               </>
             ) : (
@@ -229,7 +229,7 @@ const ChatWidget: React.FC = () => {
                 value={state.message}
                 onChange={(e) => setState((s) => ({ ...s, message: e.target.value }))}
                 placeholder="Type your message..."
-                className="flex-1 bg-transparent border border-white/10 rounded px-3 py-2 text-sm focus:outline-none"
+                className="flex-1 bg-transparent border border-white/10 rounded px-3 py-2 text-base md:text-sm focus:outline-none"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
                     e.preventDefault();

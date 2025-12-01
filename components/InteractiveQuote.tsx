@@ -540,7 +540,7 @@ const InteractiveQuote: React.FC = () => {
       </div>
 
       {modalOpen && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 overflow-y-auto">
+        <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 overflow-y-auto pt-16 md:pt-0">
           <div className="min-h-full flex items-center justify-center px-4 py-8">
             <div className="max-w-2xl w-full bg-slate-950 border border-white/10 rounded-lg shadow-2xl relative overflow-hidden max-h-[85vh]">
               <div className="absolute inset-0 bg-gradient-to-br from-brand-300/10 via-transparent to-slate-900 pointer-events-none" />
@@ -628,7 +628,7 @@ const InteractiveQuote: React.FC = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="you@company.com"
-                        className="w-full bg-transparent border border-white/15 rounded px-3 py-3 text-white focus:outline-none focus:border-brand-300"
+                        className="w-full bg-transparent border border-white/15 rounded px-3 py-3 text-white text-base md:text-sm focus:outline-none focus:border-brand-300"
                       />
                     </div>
                     <div>
@@ -640,7 +640,7 @@ const InteractiveQuote: React.FC = () => {
                         value={note}
                         onChange={(e) => setNote(e.target.value)}
                         placeholder="Share deadlines, must-haves, or context."
-                        className="w-full bg-transparent border border-white/15 rounded px-3 py-3 text-white focus:outline-none focus:border-brand-300 resize-none"
+                        className="w-full bg-transparent border border-white/15 rounded px-3 py-3 text-white text-base md:text-sm focus:outline-none focus:border-brand-300 resize-none"
                       ></textarea>
                     </div>
 
@@ -674,7 +674,7 @@ const InteractiveQuote: React.FC = () => {
                       rel="noreferrer"
                       className={`w-full inline-flex items-center justify-center gap-2 px-4 py-3 border font-bold uppercase tracking-wide rounded transition ${
                         sanitizedWhatsAppNumber.length > 0
-                          ? "border-brand-300 text-brand-300 hover:bg-brand-300 hover:text-black"
+                          ? "border-emerald-400 text-emerald-300 hover:bg-emerald-300 hover:text-black"
                           : "border-white/20 text-slate-400 cursor-pointer hover:border-white/30"
                       }`}
                       title={
@@ -683,6 +683,14 @@ const InteractiveQuote: React.FC = () => {
                           : "Set VITE_WHATSAPP_NUMBER to send to a specific number"
                       }
                     >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        className="w-4 h-4"
+                        fill="currentColor"
+                      >
+                        <path d="M20.52 3.48A11.77 11.77 0 0 0 12.06 0C5.45.05.09 5.41.05 12.02c0 2.11.55 4.17 1.6 5.99L0 24l6.17-1.62a11.9 11.9 0 0 0 5.89 1.53h.01c6.62 0 12-5.38 12.01-12.02A11.88 11.88 0 0 0 20.52 3.48ZM12.07 21.3h-.01a9.86 9.86 0 0 1-5.02-1.37l-.36-.22-3.66.96.98-3.56-.24-.37a9.9 9.9 0 0 1-1.52-5.25C2.26 6.49 6.61 2.14 12.05 2.1h.01c2.64 0 5.13 1.03 7 2.9a9.82 9.82 0 0 1 2.92 7.01c0 5.45-4.44 9.89-9.91 9.89Zm5.44-7.44c-.3-.15-1.78-.88-2.06-.98-.28-.1-.48-.15-.68.15-.2.3-.78.98-.96 1.18-.18.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.8-1.5-1.78-1.68-2.08-.18-.3-.02-.46.14-.61.14-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.38-.02-.53-.07-.15-.68-1.63-.93-2.24-.24-.58-.48-.5-.68-.5h-.58c-.2 0-.53.08-.8.38-.28.3-1.06 1.04-1.06 2.53 0 1.49 1.1 2.93 1.25 3.13.15.2 2.16 3.3 5.24 4.62.73.32 1.3.51 1.74.65.73.23 1.4.2 1.93.12.59-.09 1.78-.73 2.03-1.44.25-.71.25-1.32.17-1.44-.07-.12-.27-.2-.57-.35Z" />
+                      </svg>
                       Send via WhatsApp
                       <ArrowRight className="w-4 h-4" />
                     </a>
