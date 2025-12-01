@@ -92,9 +92,8 @@ const About: React.FC = () => {
               <motion.div 
                 key={idx}
                 initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ delay: idx * 0.1 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: idx * 0.08, duration: 0.45, ease: "easeOut" }}
                 className="relative group"
               >
                 {/* Dot */}

@@ -1,5 +1,6 @@
 import React from "react";
 import { Check, ArrowRight, Sparkles, X, Loader2 } from "lucide-react";
+import { motion } from "framer-motion";
 import { AddOn, MainOption, defaultAddOns, defaultMainOptions } from "../data/quoteOptions";
 
 const formatPrice = (value: number | undefined | null) =>
@@ -269,7 +270,12 @@ const InteractiveQuote: React.FC = () => {
   };
 
   return (
-    <section className="py-28 border-b border-white/5 relative overflow-hidden">
+    <motion.section
+      className="py-28 border-b border-white/5 relative overflow-hidden"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45, ease: "easeOut" }}
+    >
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Desktop layout (unchanged) */}
         <div className="hidden md:flex flex-col lg:flex-row gap-12 items-start">
@@ -301,7 +307,10 @@ const InteractiveQuote: React.FC = () => {
           </div>
 
           <div className="lg:w-2/3 space-y-8 w-full">
-            <div className="flex gap-3 overflow-x-auto pb-2 -mx-2 px-2 snap-x snap-mandatory md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0 md:mx-0">
+            <div
+              className="flex gap-3 overflow-x-auto pb-2 -mx-2 px-2 md:grid md:grid-cols-3 md:gap-4 md:overflow-visible md:px-0 md:mx-0"
+              style={{ scrollBehavior: "smooth" }}
+            >
               {packages.map((option) => {
                 const isActive = mainSelection.id === option.id;
                 return (
@@ -701,7 +710,7 @@ const InteractiveQuote: React.FC = () => {
           </div>
         </div>
       )}
-    </section>
+    </motion.section>
   );
 };
 
