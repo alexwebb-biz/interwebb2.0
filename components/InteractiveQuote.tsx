@@ -87,6 +87,7 @@ const InteractiveQuote: React.FC = () => {
   const [sending, setSending] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [sent, setSent] = React.useState(false);
+  const whatsappNumber = (import.meta.env?.VITE_WHATSAPP_NUMBER as string | undefined) || "";
 
   React.useEffect(() => {
     const load = async () => {
@@ -204,6 +205,25 @@ const InteractiveQuote: React.FC = () => {
   const monthlyTotal = monthlyItems.reduce((sum, item) => sum + item.price, 0);
   const oneOffItems = selectedItems.filter((item) => item.tag !== "Monthly");
   const oneOffTotal = oneOffItems.reduce((sum, item) => sum + item.price, 0);
+  const sanitizedWhatsAppNumber = React.useMemo(() => whatsappNumber.replace(/\D/g, ""), [whatsappNumber]);
+  const whatsappMessage = React.useMemo(() => {
+    const lines = [
+      "Hi, I’d like to confirm this quote:",
+      `Package: ${baseItem.name} (${formatPrice(baseItem.price)})`,
+      selectedAddOnItems.length
+        ? "Add-ons:"
+        : "Add-ons: none",
+      ...selectedAddOnItems.map((a) => `- ${a.name} (${formatPrice(a.price)}${a.tag === "Monthly" ? " / mo" : ""})`),
+      `One-off total: ${formatPrice(oneOffTotal)}`,
+      monthlyTotal > 0 ? `Monthly total: ${formatPrice(monthlyTotal)} / mo` : undefined,
+      note ? `Notes: ${note}` : undefined,
+    ].filter(Boolean) as string[];
+    return lines.join("\n");
+  }, [baseItem.name, baseItem.price, selectedAddOnItems, oneOffTotal, monthlyTotal, note]);
+  const whatsappUrl =
+    sanitizedWhatsAppNumber.length > 0
+      ? `https://wa.me/${sanitizedWhatsAppNumber}?text=${encodeURIComponent(whatsappMessage)}`
+      : `https://wa.me/?text=${encodeURIComponent(whatsappMessage)}`;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -648,6 +668,24 @@ const InteractiveQuote: React.FC = () => {
                         </>
                       )}
                     </button>
+                    <a
+                      href={whatsappUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={`w-full inline-flex items-center justify-center gap-2 px-4 py-3 border font-bold uppercase tracking-wide rounded transition ${
+                        sanitizedWhatsAppNumber.length > 0
+                          ? "border-brand-300 text-brand-300 hover:bg-brand-300 hover:text-black"
+                          : "border-white/20 text-slate-400 cursor-pointer hover:border-white/30"
+                      }`}
+                      title={
+                        sanitizedWhatsAppNumber.length > 0
+                          ? "Send via WhatsApp"
+                          : "Set VITE_WHATSAPP_NUMBER to send to a specific number"
+                      }
+                    >
+                      Send via WhatsApp
+                      <ArrowRight className="w-4 h-4" />
+                    </a>
                   </form>
                 </div>
               </div>
