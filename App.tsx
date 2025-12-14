@@ -12,6 +12,7 @@ import Admin from './pages/Admin';
 import Pricing from './pages/Pricing';
 import { AnimatePresence, motion } from 'framer-motion';
 import ChatWidget from './components/ChatWidget';
+import { Analytics } from './components/Analytics';
 
 // Wrapper to handle scroll to top on route change
 const ScrollToTop = () => {
@@ -59,6 +60,7 @@ const App: React.FC = () => {
     <HashRouter>
       <div className="min-h-screen bg-slate-950 flex flex-col font-sans selection:bg-brand-500 selection:text-white">
         <ScrollToTop />
+        <Analytics />
         <Navbar />
         <main className="flex-grow relative z-10">
           <AnimatedRoutes />
