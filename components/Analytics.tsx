@@ -13,11 +13,11 @@ const GA_ID = import.meta.env.VITE_GA_ID;
 export function Analytics() {
   const location = useLocation();
 
-  // Init GA once
+  // init once + send initial page_view
   useEffect(() => {
     if (!GA_ID) return;
 
-    // Create gtag stub immediately so calls queue into dataLayer
+    // Create stub immediately so calls queue in dataLayer
     window.dataLayer = window.dataLayer || [];
     window.gtag =
       window.gtag ||
@@ -26,9 +26,6 @@ export function Analytics() {
       });
 
     window.gtag("js", new Date());
-
-    // Disable auto page_view for SPA; we will send it manually
-    window.gtag("config", GA_ID, { send_page_view: false });
 
     // Load gtag.js once
     const existing = document.querySelector<HTMLScriptElement>(
@@ -41,36 +38,30 @@ export function Analytics() {
       document.head.appendChild(script);
     }
 
-    // Send initial page_view
-    window.gtag("event", "page_view", {
-      page_location: window.location.href,
+    // IMPORTANT: send something on first load
+    window.gtag("config", GA_ID, {
       page_path: window.location.pathname + window.location.search,
-      page_title: document.title,
+      page_location: window.location.href,
     });
   }, []);
 
-  // Send page_view on route changes (BrowserRouter uses pathname/search)
+  // send page_view on BrowserRouter route changes
   useEffect(() => {
     if (!GA_ID || !window.gtag) return;
 
-    window.gtag("event", "page_view", {
-      page_location: window.location.href,
+    window.gtag("config", GA_ID, {
       page_path: location.pathname + location.search,
-      page_title: document.title,
+      page_location: window.location.href,
     });
   }, [location.pathname, location.search]);
 
-  // Capture ref/UTM on first landing and persist it
+  // capture ref/UTM from real query string (BrowserRouter)
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const ref = params.get("ref") || params.get("utm_source");
-
-    // Store only once (first-touch), but still allow event fire if desired
     if (ref && !localStorage.getItem("ref_source")) {
       localStorage.setItem("ref_source", ref);
-      if (window.gtag) {
-        window.gtag("event", "ref_capture", { ref_source: ref });
-      }
+      window.gtag?.("event", "ref_capture", { ref_source: ref });
     }
   }, []);
 
