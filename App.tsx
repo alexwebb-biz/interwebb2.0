@@ -1,19 +1,24 @@
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import Home from './pages/Home';
-import Services from './pages/Services';
-import Work from './pages/Work';
-import Contact from './pages/Contact';
-import About from './pages/About';
-import Admin from './pages/Admin';
-import Pricing from './pages/Pricing';
 import { AnimatePresence, motion } from 'framer-motion';
-import ChatWidget from './components/ChatWidget';
 import { Analytics } from './components/Analytics';
 import { Seo } from './components/Seo';
+import { MetaPixel } from './components/MetaPixel';
+
+const Home = React.lazy(() => import('./pages/Home'));
+const Services = React.lazy(() => import('./pages/Services'));
+const Work = React.lazy(() => import('./pages/Work'));
+const Contact = React.lazy(() => import('./pages/Contact'));
+const About = React.lazy(() => import('./pages/About'));
+const Pricing = React.lazy(() => import('./pages/Pricing'));
+const Admin = React.lazy(() => import('./pages/Admin'));
+const ChatWidget = React.lazy(() => import('./components/ChatWidget'));
+const Privacy = React.lazy(() => import('./pages/Privacy'));
+const Terms = React.lazy(() => import('./pages/Terms'));
+const Cookies = React.lazy(() => import('./pages/Cookies'));
 
 // Wrapper to handle scroll to top on route change
 const ScrollToTop = () => {
@@ -50,6 +55,9 @@ const AnimatedRoutes = () => {
         <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
         <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
         <Route path="/pricing" element={<PageWrapper><Pricing /></PageWrapper>} />
+        <Route path="/privacy" element={<PageWrapper><Privacy /></PageWrapper>} />
+        <Route path="/terms" element={<PageWrapper><Terms /></PageWrapper>} />
+        <Route path="/cookies" element={<PageWrapper><Cookies /></PageWrapper>} />
         <Route path="/admin" element={<PageWrapper><Admin /></PageWrapper>} />
       </Routes>
     </AnimatePresence>
@@ -63,12 +71,17 @@ const App: React.FC = () => {
         <ScrollToTop />
         <Seo />
         <Analytics />
+        <MetaPixel />
         <Navbar />
         <main className="flex-grow relative z-10">
-          <AnimatedRoutes />
+          <Suspense fallback={<div className="min-h-[50vh]" />}>
+            <AnimatedRoutes />
+          </Suspense>
         </main>
         <Footer />
-        <ChatWidget />
+        <Suspense fallback={null}>
+          <ChatWidget />
+        </Suspense>
       </div>
     </BrowserRouter>
   );

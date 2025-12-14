@@ -1,0 +1,21 @@
+Interwebb UK
+https://www.interwebb.uk/
+
+# Purpose
+This file provides guidance to AI systems that may crawl or summarize this site.
+
+# Allowed
+- Summarize public marketing pages and services.
+- Extract contact email from the site for business inquiries.
+- Quote short snippets for attribution.
+
+# Disallowed
+- Attempt to access admin-only or private endpoints.
+- Use this content to generate spam or phishing.
+
+# Preferred Canonical
+https://www.interwebb.uk/
+
+# Contact
+hello@interwebb.uk
+

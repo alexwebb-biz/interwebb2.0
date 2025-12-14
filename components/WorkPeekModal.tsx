@@ -1,6 +1,7 @@
 import React from "react";
 import { ArrowUpRight } from "lucide-react";
 import { WorkItem } from "../data/work";
+import { LazyIframe } from "./LazyIframe";
 
 type WorkPeekModalProps = {
   active: WorkItem | null;
@@ -39,13 +40,12 @@ export const WorkPeekModal: React.FC<WorkPeekModalProps> = ({ active, onClose })
         </div>
 
         <div className="relative aspect-[16/10] bg-slate-950 border-b border-white/10">
-          <iframe
+          <LazyIframe
             src={active.liveUrl}
             title={active.title}
             className="w-full h-full"
-            loading="lazy"
             allow="clipboard-write; encrypted-media; accelerometer; gyroscope; picture-in-picture"
-          ></iframe>
+          />
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 px-6 py-5">

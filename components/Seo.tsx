@@ -7,7 +7,7 @@ type SeoMeta = {
 };
 
 const DEFAULT: SeoMeta = {
-  title: 'Interwebb UK | Web Design, Development & Digital Product Studio',
+  title: 'Interwebb UK | Web Design & Development Studio',
   description:
     'Interwebb UK is a digital product studio building fast, modern websites and web applications for growing brands. Strategy, design, development, and SEO.',
 };
@@ -38,6 +38,18 @@ const ROUTES: Record<string, SeoMeta> = {
     title: 'Contact | Interwebb UK',
     description:
       'Start a project with Interwebb UK. Tell us what you need and we’ll get back quickly with next steps.',
+  },
+  '/privacy': {
+    title: 'Privacy | Interwebb UK',
+    description: 'How Interwebb UK uses analytics and handles personal data.',
+  },
+  '/terms': {
+    title: 'Terms | Interwebb UK',
+    description: 'Website terms of use for Interwebb UK.',
+  },
+  '/cookies': {
+    title: 'Cookies | Interwebb UK',
+    description: 'Cookie and tracking information for Interwebb UK.',
   },
 };
 
@@ -95,8 +107,47 @@ export function Seo() {
     upsertMeta('twitter:title', meta.title);
     upsertMeta('twitter:description', meta.description);
     upsertMeta('twitter:image', shareImage);
+
+    const structuredDataEl = document.getElementById('interwebb-schema');
+    if (structuredDataEl) {
+      const sameAs = [
+        import.meta.env.VITE_SOCIAL_X_URL,
+        import.meta.env.VITE_SOCIAL_INSTAGRAM_URL,
+        import.meta.env.VITE_SOCIAL_LINKEDIN_URL,
+        import.meta.env.VITE_SOCIAL_FACEBOOK_URL,
+        import.meta.env.VITE_SOCIAL_YOUTUBE_URL,
+      ].filter(Boolean);
+
+      const jsonLd = {
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'Organization',
+            name: 'Interwebb UK',
+            url: `${origin}/`,
+            logo: `${origin}/favicon.svg`,
+            email: 'hello@interwebb.uk',
+            sameAs,
+          },
+          {
+            '@type': 'LocalBusiness',
+            name: 'Interwebb UK',
+            url: `${origin}/`,
+            image: shareImage,
+            areaServed: 'Wales, UK',
+            address: {
+              '@type': 'PostalAddress',
+              addressRegion: 'Wales',
+              addressCountry: 'GB',
+            },
+            sameAs,
+          },
+        ],
+      };
+
+      structuredDataEl.textContent = JSON.stringify(jsonLd);
+    }
   }, [location.pathname]);
 
   return null;
 }
-

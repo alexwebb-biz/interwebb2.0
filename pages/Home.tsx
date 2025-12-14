@@ -6,6 +6,7 @@ import { WorkPeekModal } from "../components/WorkPeekModal";
 import { WorkItem, workItems } from "../data/work";
 import { packageTiers, PackageTier } from "../data/pricing";
 import InteractiveQuote from "../components/InteractiveQuote";
+import { LazyIframe } from "../components/LazyIframe";
 
 const Home: React.FC = () => {
   const [active, setActive] = React.useState<WorkItem | null>(null);
@@ -41,6 +42,17 @@ const Home: React.FC = () => {
           <h2 className="text-2xl md:text-4xl text-slate-300 font-light leading-relaxed max-w-4xl">
             Interwebb is a Wales-based digital product studio. We simplify the complex, building <span className="text-white font-medium">websites and applications</span> that drive real business growth.
           </h2>
+          <div className="mt-10 max-w-4xl text-slate-400 leading-relaxed space-y-4">
+            <p>
+              If you’re looking for web design and development in Wales, we deliver modern, high-performance builds that
+              load fast, look sharp on mobile, and convert visitors into customers.
+            </p>
+            <p>
+              Explore <Link to="/services" className="text-brand-300 hover:underline">services</Link>, browse recent{' '}
+              <Link to="/work" className="text-brand-300 hover:underline">work</Link>, or{' '}
+              <Link to="/contact" className="text-brand-300 hover:underline">start a project</Link>.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -72,14 +84,14 @@ const Home: React.FC = () => {
                     style={{ background: p.accent || "#67e8f9" }}
                   ></div>
 
-                  <iframe
-                    src={p.liveUrl}
-                    title={`${p.title} live preview`}
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    className="absolute inset-0 w-full h-full border-0 pointer-events-none transition-transform duration-700 group-hover/video:scale-105 group-hover/video:grayscale-0"
-                    allow="clipboard-write; encrypted-media; accelerometer; gyroscope; picture-in-picture; fullscreen"
-                  ></iframe>
+                  <div className="absolute inset-0 pointer-events-none">
+                    <LazyIframe
+                      src={p.liveUrl}
+                      title={`${p.title} live preview`}
+                      className="absolute inset-0 w-full h-full transition-transform duration-700 group-hover/video:scale-105 group-hover/video:grayscale-0"
+                      allow="clipboard-write; encrypted-media; accelerometer; gyroscope; picture-in-picture; fullscreen"
+                    />
+                  </div>
 
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent opacity-0 group-hover/video:opacity-100 transition-opacity duration-300"></div>
 

@@ -41,6 +41,9 @@ const Pricing: React.FC = () => {
               Three ready-to-roll bundles, plus a configure-your-own option for the extras you need.
               Transparent pricing, no surprises.
             </p>
+            <p className="text-slate-500 text-sm leading-relaxed max-w-2xl">
+              Ideal for UK businesses looking for fast, modern website builds with clear deliverables and measurable results.
+            </p>
             <div className="flex flex-wrap gap-3">
               <Link
                 to="/contact"

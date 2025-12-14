@@ -1,8 +1,16 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Github, Twitter, Linkedin, ArrowUpRight } from 'lucide-react';
+import { Twitter, Linkedin, Instagram, Facebook, Youtube, ArrowUpRight } from 'lucide-react';
 import { Logo } from './Logo';
+
+const SOCIAL = {
+  x: import.meta.env.VITE_SOCIAL_X_URL as string | undefined,
+  instagram: import.meta.env.VITE_SOCIAL_INSTAGRAM_URL as string | undefined,
+  linkedin: import.meta.env.VITE_SOCIAL_LINKEDIN_URL as string | undefined,
+  facebook: import.meta.env.VITE_SOCIAL_FACEBOOK_URL as string | undefined,
+  youtube: import.meta.env.VITE_SOCIAL_YOUTUBE_URL as string | undefined
+};
 
 const Footer: React.FC = () => {
   return (
@@ -35,24 +43,70 @@ const Footer: React.FC = () => {
           <div className="md:col-span-2">
             <h4 className="text-white font-bold font-display mb-6">LEGAL</h4>
             <ul className="space-y-4 text-sm text-slate-400 font-mono">
-              <li><a href="#" className="hover:text-brand-300 transition-colors">Privacy</a></li>
-              <li><a href="#" className="hover:text-brand-300 transition-colors">Terms</a></li>
-              <li><a href="#" className="hover:text-brand-300 transition-colors">Cookies</a></li>
+              <li><Link to="/privacy" className="hover:text-brand-300 transition-colors">Privacy</Link></li>
+              <li><Link to="/terms" className="hover:text-brand-300 transition-colors">Terms</Link></li>
+              <li><Link to="/cookies" className="hover:text-brand-300 transition-colors">Cookies</Link></li>
             </ul>
           </div>
 
           <div className="md:col-span-4">
             <h4 className="text-white font-bold font-display mb-6">CONNECT</h4>
             <div className="flex gap-4 mb-8">
-              <a href="#" className="w-10 h-10 bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-brand-300 hover:text-black transition-all">
-                <Twitter size={18} />
-              </a>
-              <a href="#" className="w-10 h-10 bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-brand-300 hover:text-black transition-all">
-                <Github size={18} />
-              </a>
-              <a href="#" className="w-10 h-10 bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-brand-300 hover:text-black transition-all">
-                <Linkedin size={18} />
-              </a>
+              {SOCIAL.x && (
+                <a
+                  href={SOCIAL.x}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Interwebb UK on X"
+                  className="w-10 h-10 bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-brand-300 hover:text-black transition-all"
+                >
+                  <Twitter size={18} />
+                </a>
+              )}
+              {SOCIAL.linkedin && (
+                <a
+                  href={SOCIAL.linkedin}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Interwebb UK on LinkedIn"
+                  className="w-10 h-10 bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-brand-300 hover:text-black transition-all"
+                >
+                  <Linkedin size={18} />
+                </a>
+              )}
+              {SOCIAL.instagram && (
+                <a
+                  href={SOCIAL.instagram}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Interwebb UK on Instagram"
+                  className="w-10 h-10 bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-brand-300 hover:text-black transition-all"
+                >
+                  <Instagram size={18} />
+                </a>
+              )}
+              {SOCIAL.facebook && (
+                <a
+                  href={SOCIAL.facebook}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Interwebb UK on Facebook"
+                  className="w-10 h-10 bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-brand-300 hover:text-black transition-all"
+                >
+                  <Facebook size={18} />
+                </a>
+              )}
+              {SOCIAL.youtube && (
+                <a
+                  href={SOCIAL.youtube}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Interwebb UK on YouTube"
+                  className="w-10 h-10 bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:bg-brand-300 hover:text-black transition-all"
+                >
+                  <Youtube size={18} />
+                </a>
+              )}
             </div>
             <div className="p-4 border border-white/10 bg-white/5 flex justify-between items-center group cursor-pointer hover:border-brand-300/50 transition-colors">
                <span className="text-slate-400 text-sm group-hover:text-white">hello@interwebb.uk</span>

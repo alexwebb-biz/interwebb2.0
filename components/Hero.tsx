@@ -25,14 +25,14 @@ const Hero: React.FC = () => {
             </div>
             
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-bold text-white leading-[0.9] mb-8 tracking-tight">
-              DIGITAL <br />
+              WEB DESIGN <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-300 via-brand-200 to-white">
-                ENGINEERING
+                &amp; DEVELOPMENT
               </span>
             </h1>
             
             <p className="text-lg text-slate-400 mb-10 max-w-xl leading-relaxed border-l border-white/10 pl-6">
-              We design and build high-performance digital products for forward-thinking brands. Merging aesthetic precision with robust code.
+              Wales-based studio building fast, modern websites and web applications for forward-thinking brands. Strategy, design, development, SEO.
             </p>
             
             <div className="flex flex-wrap gap-4">

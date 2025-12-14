@@ -54,6 +54,9 @@ const About: React.FC = () => {
           <p className="text-xl text-slate-400 max-w-2xl leading-relaxed border-l-2 border-white/10 pl-6">
             We are not just a design agency. We are a collective of creative engineers and technical artists obsessed with the space where function meets form.
           </p>
+          <p className="text-slate-500 max-w-2xl mt-6 leading-relaxed">
+            Interwebb UK is based in Wales and works with UK brands on web design, web development, and performance-led digital product builds.
+          </p>
         </motion.div>
       </div>
 

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Interwebb UK | Web Design, Development & Digital Product Studio</title>
+    <title>Interwebb UK | Web Design & Development Studio</title>
     <meta
       name="description"
       content="Interwebb UK is a digital product studio building fast, modern websites and web applications for growing brands. Strategy, design, development, and SEO."
@@ -15,7 +15,7 @@
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Interwebb UK" />
-    <meta property="og:title" content="Interwebb UK | Web Design, Development & Digital Product Studio" />
+    <meta property="og:title" content="Interwebb UK | Web Design & Development Studio" />
     <meta
       property="og:description"
       content="Interwebb UK is a digital product studio building fast, modern websites and web applications for growing brands."
@@ -24,7 +24,7 @@
     <meta property="og:image" content="https://www.interwebb.uk/og-image.svg" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Interwebb UK | Web Design, Development & Digital Product Studio" />
+    <meta name="twitter:title" content="Interwebb UK | Web Design & Development Studio" />
     <meta
       name="twitter:description"
       content="Interwebb UK is a digital product studio building fast, modern websites and web applications for growing brands."
@@ -37,73 +37,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Inter', 'sans-serif'],
-              display: ['Space Grotesk', 'sans-serif'],
-            },
-            colors: {
-              brand: {
-                50: '#f7fee7',
-                100: '#ecfccb',
-                200: '#d9f99d',
-                300: '#bef264', // Main Neon
-                400: '#a3e635',
-                500: '#84cc16',
-                600: '#65a30d',
-                900: '#365314',
-                950: '#1a2e05',
-              },
-              dark: {
-                900: '#0a0a0a',
-                800: '#171717',
-                700: '#262626',
-              }
-            },
-            backgroundImage: {
-              'grid-white': "url(\"data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(255 255 255 / 0.05)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e\")",
-            }
-          }
-        }
-      }
-    </script>
-    <style>
-      /* Base Styles */
-      body {
-        background-color: #020617; /* Slate 950 */
-        color: #e2e8f0;
-      }
-      
-      /* Custom Scrollbar */
-      ::-webkit-scrollbar {
-        width: 6px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #020617; 
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #334155; 
-        border-radius: 0px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #bef264; 
-      }
-
-      /* Utilities */
-      .text-balance {
-        text-wrap: balance;
-      }
-      .glass-panel {
-        background: rgba(255, 255, 255, 0.03);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.05);
-      }
-    </style>
   <script type="importmap">
 {
   "imports": {
@@ -116,14 +50,29 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
     <script type="application/ld+json" id="interwebb-schema">
       {
         "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Interwebb UK",
-        "url": "https://www.interwebb.uk/",
-        "logo": "https://www.interwebb.uk/favicon.svg"
+        "@graph": [
+          {
+            "@type": "Organization",
+            "name": "Interwebb UK",
+            "url": "https://www.interwebb.uk/",
+            "logo": "https://www.interwebb.uk/favicon.svg"
+          },
+          {
+            "@type": "LocalBusiness",
+            "name": "Interwebb UK",
+            "url": "https://www.interwebb.uk/",
+            "image": "https://www.interwebb.uk/og-image.svg",
+            "areaServed": "Wales, UK",
+            "address": {
+              "@type": "PostalAddress",
+              "addressRegion": "Wales",
+              "addressCountry": "GB"
+            }
+          }
+        ]
       }
     </script>
 </head>

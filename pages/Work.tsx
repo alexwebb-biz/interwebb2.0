@@ -2,6 +2,7 @@ import React from "react";
 import { ArrowUpRight } from "lucide-react";
 import { WorkPeekModal } from "../components/WorkPeekModal";
 import { WorkItem, workItems } from "../data/work";
+import { LazyIframe } from "../components/LazyIframe";
 
 const Work: React.FC = () => {
   const [active, setActive] = React.useState<WorkItem | null>(null);
@@ -12,7 +13,7 @@ const Work: React.FC = () => {
         <div className="mb-20">
           <h1 className="text-4xl md:text-6xl font-display font-bold text-white mb-6">CASE STUDIES</h1>
           <p className="text-xl text-slate-400 max-w-2xl">
-            A collection of our most impactful work. We take pride in delivering excellence across every pixel and line of code.
+            A collection of web design and development projects shipped for brands across Wales and the UK, focused on speed, clarity, and conversion.
           </p>
         </div>
 
@@ -29,14 +30,14 @@ const Work: React.FC = () => {
                       className="absolute inset-x-6 top-6 h-1 rounded-full"
                       style={{ background: work.accent || "#67e8f9" }}
                     ></div>
-                    <iframe
-                      src={work.liveUrl}
-                      title={`${work.title} live preview`}
-                      loading="lazy"
-                      referrerPolicy="no-referrer-when-downgrade"
-                      className="absolute inset-0 w-full h-full border-0 pointer-events-none transition-transform duration-700 group-hover/video:scale-105 grayscale group-hover/video:grayscale-0"
-                      allow="clipboard-write; encrypted-media; accelerometer; gyroscope; picture-in-picture; fullscreen"
-                    ></iframe>
+                    <div className="absolute inset-0 pointer-events-none">
+                      <LazyIframe
+                        src={work.liveUrl}
+                        title={`${work.title} live preview`}
+                        className="absolute inset-0 w-full h-full transition-transform duration-700 group-hover/video:scale-105 grayscale group-hover/video:grayscale-0"
+                        allow="clipboard-write; encrypted-media; accelerometer; gyroscope; picture-in-picture; fullscreen"
+                      />
+                    </div>
 
                     <div
                       className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/30 to-transparent opacity-0 group-hover/video:opacity-100 transition-opacity duration-500"

@@ -46,9 +46,16 @@ const Services: React.FC = () => {
     <div className="pt-32 pb-20 min-h-screen bg-slate-950">
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-20 border-b border-white/10 pb-10">
-          <h1 className="text-4xl md:text-6xl font-display font-bold text-white mb-6">CAPABILITIES</h1>
+          <h1 className="text-4xl md:text-6xl font-display font-bold text-white mb-6">
+            WEB DESIGN &amp; DEVELOPMENT
+          </h1>
           <p className="text-xl text-slate-400 max-w-2xl">
-            We offer a full-stack digital service. From the first line of code to the final pixel, we ensure excellence.
+            Full-stack services from strategy and UI/UX to development and technical SEO. Built for speed, conversion, and
+            Core Web Vitals.
+          </p>
+          <p className="text-slate-500 mt-4 max-w-3xl leading-relaxed">
+            Based in Wales, we help UK businesses launch modern websites and web applications with clear messaging,
+            accessible design, and measurable performance.
           </p>
         </div>
 
@@ -92,6 +99,15 @@ const Services: React.FC = () => {
               </div>
            </div>
         </div>
+
+        <section className="mt-28 border-t border-white/10 pt-12">
+          <h3 className="text-2xl md:text-3xl font-display font-bold text-white mb-4">Technical SEO that ships with the build</h3>
+          <p className="text-slate-400 leading-relaxed max-w-3xl">
+            Every project is structured with semantic headings, fast-loading assets, and share-ready metadata. That means
+            better crawlability, better page speed, and clearer reporting for traffic sources like Instagram, X, and
+            LinkedIn.
+          </p>
+        </section>
       </div>
     </div>
   );
