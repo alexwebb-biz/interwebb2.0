@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -57,7 +57,7 @@ const AnimatedRoutes = () => {
 
 const App: React.FC = () => {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <div className="min-h-screen bg-slate-950 flex flex-col font-sans selection:bg-brand-500 selection:text-white">
         <ScrollToTop />
         <Analytics />
@@ -68,7 +68,7 @@ const App: React.FC = () => {
         <Footer />
         <ChatWidget />
       </div>
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 
