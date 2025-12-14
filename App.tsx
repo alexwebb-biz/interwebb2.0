@@ -13,6 +13,7 @@ import Pricing from './pages/Pricing';
 import { AnimatePresence, motion } from 'framer-motion';
 import ChatWidget from './components/ChatWidget';
 import { Analytics } from './components/Analytics';
+import { Seo } from './components/Seo';
 
 // Wrapper to handle scroll to top on route change
 const ScrollToTop = () => {
@@ -60,6 +61,7 @@ const App: React.FC = () => {
     <BrowserRouter>
       <div className="min-h-screen bg-slate-950 flex flex-col font-sans selection:bg-brand-500 selection:text-white">
         <ScrollToTop />
+        <Seo />
         <Analytics />
         <Navbar />
         <main className="flex-grow relative z-10">
