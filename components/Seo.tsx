@@ -29,6 +29,11 @@ const ROUTES: Record<string, SeoMeta> = {
     description:
       'Transparent packages and pricing for websites and digital product builds. Get a quote and start your project.',
   },
+  '/web-design-for-trades': {
+    title: 'Web Design for Trades | Interwebb UK',
+    description:
+      'Web design for trades businesses that want more calls and quote requests. Websites for plumbers, electricians, builders, roofers, landscapers, and local service businesses.',
+  },
   '/about': {
     title: 'About | Interwebb UK',
     description:

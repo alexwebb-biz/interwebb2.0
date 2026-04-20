@@ -14,6 +14,7 @@ const Work = React.lazy(() => import('./pages/Work'));
 const Contact = React.lazy(() => import('./pages/Contact'));
 const About = React.lazy(() => import('./pages/About'));
 const Pricing = React.lazy(() => import('./pages/Pricing'));
+const TradesWebDesign = React.lazy(() => import('./pages/TradesWebDesign'));
 const Admin = React.lazy(() => import('./pages/Admin'));
 const ChatWidget = React.lazy(() => import('./components/ChatWidget'));
 const Privacy = React.lazy(() => import('./pages/Privacy'));
@@ -55,6 +56,7 @@ const AnimatedRoutes = () => {
         <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
         <Route path="/contact" element={<PageWrapper><Contact /></PageWrapper>} />
         <Route path="/pricing" element={<PageWrapper><Pricing /></PageWrapper>} />
+        <Route path="/web-design-for-trades" element={<PageWrapper><TradesWebDesign /></PageWrapper>} />
         <Route path="/privacy" element={<PageWrapper><Privacy /></PageWrapper>} />
         <Route path="/terms" element={<PageWrapper><Terms /></PageWrapper>} />
         <Route path="/cookies" element={<PageWrapper><Cookies /></PageWrapper>} />
