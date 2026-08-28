@@ -20,11 +20,11 @@ const trades = [
 
 const problems = [
   'Your van looks the part. The website looks like 2014.',
-  'It\u2019s a nightmare on a phone, which is how most people find you.',
+  "It's a nightmare on a phone, which is how most people find you.",
   'Reviews and Gas Safe / NICEIC sit on Facebook, not on the site.',
-  'You cover a real patch. The site doesn\u2019t say where.',
+  "You cover a real patch. The site doesn't say where.",
   'The quote form is buried under waffle.',
-  'You\u2019re paying for a site that doesn\u2019t earn its keep.',
+  "You're paying for a site that doesn't earn its keep.",
 ];
 
 const packageItems = [
@@ -44,8 +44,8 @@ const reasons = [
     icon: PhoneCall,
   },
   {
-    title: 'Fast on a phone. That\u2019s the job.',
-    copy: 'Most people find you on a phone. If they can\u2019t tap the number, they ring the next van.',
+    title: "Fast on a phone. That's the job.",
+    copy: "Most people find you on a phone. If they can't tap the number, they ring the next van.",
     icon: Wrench,
   },
   {
@@ -64,15 +64,15 @@ const faqs = [
   {
     question: 'How much is it?',
     answer:
-      '\u00a349 a month. No setup. Hosting is in. If you pay subs, CIS is free for 90 days, then \u00a39 (so \u00a358 if you keep both).',
+      '£49 a month. No setup. Hosting is in. If you pay subs, CIS is free for 90 days, then £9 (so £58 if you keep both).',
   },
   {
     question: 'How long to get it live?',
-    answer: 'Two to four weeks once we\u2019ve got photos, services, and where you cover.',
+    answer: "Two to four weeks once we've got photos, services, and where you cover.",
   },
   {
-    question: 'Can you redo the site I\u2019ve got?',
-    answer: 'Yes. Keep what\u2019s working, bin what isn\u2019t, put the number at the top.',
+    question: "Can you redo the site I've got?",
+    answer: "Yes. Keep what's working, bin what isn't, put the number at the top.",
   },
   {
     question: 'Do you write the words?',
@@ -81,7 +81,7 @@ const faqs = [
   {
     question: 'What if I pay subcontractors?',
     answer:
-      'Join the CIS list. It\u2019s a subbie register and a reminder before the 19th, not a tax robot. 90 days free with the site, then \u00a39.',
+      "Join the CIS list. It's a subbie register and a reminder before the 19th, not a tax robot. 90 days free with the site, then £9.",
   },
 ];
 
@@ -115,10 +115,10 @@ const TradesWebDesign: React.FC = () => {
               A site that gets the phone ringing.
             </h1>
             <p className="mt-8 max-w-2xl border-l border-brand-300/70 pl-6 text-lg leading-relaxed text-slate-300 md:text-xl">
-              \u00a349 a month. No setup fee. Hosting included.
+              {'£49 a month. No setup fee. Hosting included.'}
             </p>
             <p className="mt-4 max-w-2xl pl-6 text-base leading-relaxed text-slate-400 md:text-lg">
-              Pay other trades? CIS reminders, 90 days free, then \u00a39.
+              {'Pay other trades? CIS reminders, 90 days free, then £9.'}
             </p>
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
               <button
@@ -139,7 +139,7 @@ const TradesWebDesign: React.FC = () => {
             </div>
             <a
               href={PHONE_TEL}
-              className="mt-6 inline-block pl-0 text-lg font-semibold text-white hover:text-brand-300 sm:pl-0"
+              className="mt-6 inline-block text-lg font-semibold text-white hover:text-brand-300"
             >
               {PHONE}
             </a>
@@ -180,7 +180,7 @@ const TradesWebDesign: React.FC = () => {
               A weak website loses the job before the phone rings.
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-slate-400">
-              Someone googles a plumber at 7am. If they can\u2019t tap your number, they ring the next one.
+              {"Someone googles a plumber at 7am. If they can't tap your number, they ring the next one."}
             </p>
           </motion.div>
           <div className="divide-y divide-white/10 border-y border-white/10">
@@ -200,15 +200,13 @@ const TradesWebDesign: React.FC = () => {
             <div>
               <p className="font-mono text-xs uppercase tracking-widest text-brand-300">Trades website package</p>
               <h2 className="mt-4 font-display text-4xl font-bold text-white md:text-6xl">
-                \u00a349 a month. That\u2019s the lot.
+                {'£49 a month. That\'s the lot.'}
               </h2>
               <p className="mt-6 text-lg leading-relaxed text-slate-400">
-                A proper trades site. No setup. Hosting included. One number, tap-to-call, WhatsApp, and a quote form
-                that isn\u2019t hiding.
+                {"A proper trades site. No setup. Hosting included. One number, tap-to-call, WhatsApp, and a quote form that isn't hiding."}
               </p>
               <p className="mt-6 border-l border-brand-300/70 pl-6 text-base leading-relaxed text-slate-300">
-                If you pay subs, add CIS 19th. Subbie list and a nag before the 19th. 90 days free with the site, then
-                \u00a39. We don\u2019t file to HMRC.{' '}
+                {"If you pay subs, add CIS 19th. Subbie list and a nag before the 19th. 90 days free with the site, then £9. We don't file to HMRC. "}
                 <a href={CIS_URL} className="font-semibold text-brand-300 hover:text-brand-400">
                   Join the CIS list
                 </a>
@@ -267,10 +265,10 @@ const TradesWebDesign: React.FC = () => {
           <div>
             <p className="font-mono text-xs uppercase tracking-widest text-brand-300">Free 5-minute website audit</p>
             <h2 className="mt-4 font-display text-4xl font-bold text-white md:text-6xl">
-              Send the site. I\u2019ll tell you what\u2019s costing you jobs.
+              {"Send the site. I'll tell you what's costing you jobs."}
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-slate-400">
-              Five minutes. You get a short note on what\u2019s losing calls, and whether \u00a349/mo is even worth it.
+              {"Five minutes. You get a short note on what's losing calls, and whether £49/mo is even worth it."}
             </p>
           </div>
           <AuditEnquiryForm />
@@ -297,10 +295,10 @@ const TradesWebDesign: React.FC = () => {
       <section className="border-t border-white/10 px-6 py-24 text-center">
         <div className="mx-auto max-w-4xl">
           <h2 className="font-display text-4xl font-bold leading-tight text-white md:text-6xl">
-            Get the phone ringing. \u00a349 a month.
+            {'Get the phone ringing. £49 a month.'}
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-slate-400">
-            No setup. Hosting included. Pay subs? CIS 90 days free, then \u00a39.
+            {'No setup. Hosting included. Pay subs? CIS 90 days free, then £9.'}
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
             <button
@@ -326,7 +324,7 @@ const TradesWebDesign: React.FC = () => {
       </section>
 
       <p className="border-t border-white/10 px-6 py-8 text-center text-sm text-slate-500">
-        Interwebb \u00b7 Wrexham \u00b7 Sites for trades \u00b7{' '}
+        Interwebb {'·'} Wrexham {'·'} Sites for trades {'·'}{' '}
         <a href={PHONE_TEL} className="text-slate-400 hover:text-brand-300">
           {PHONE}
         </a>

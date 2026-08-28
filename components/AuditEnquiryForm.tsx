@@ -219,7 +219,7 @@ export function AuditEnquiryForm() {
         <Field label="Email" htmlFor="audit-email">
           <input
             id="audit-email"
-            type="email"
+            type="text"
             required
             value={formState.email}
             onChange={updateField('email')}
@@ -264,7 +264,7 @@ export function AuditEnquiryForm() {
 
       {error && <p className="mt-4 text-center text-sm text-red-300">{error}</p>}
       <p className="mt-4 text-center text-xs leading-relaxed text-slate-500">
-        No spam. I\u2019ll only use this to look at your site and reply.
+        {"No spam. I'll only use this to look at your site and reply."}
       </p>
     </form>
   );
