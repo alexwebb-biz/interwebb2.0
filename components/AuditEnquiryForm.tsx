@@ -258,13 +258,13 @@ export function AuditEnquiryForm() {
         disabled={isSubmitting}
         className="mt-8 flex w-full items-center justify-center gap-2 rounded-sm bg-brand-300 px-6 py-4 font-bold uppercase tracking-wide text-black transition-all hover:bg-brand-400 disabled:cursor-not-allowed disabled:opacity-60"
       >
-        {isSubmitting ? 'Sending audit request...' : 'Get My Free Website Audit'}
+        {isSubmitting ? 'Sending audit request...' : 'Get my free audit'}
         {!isSubmitting && <ArrowRight size={18} />}
       </button>
 
       {error && <p className="mt-4 text-center text-sm text-red-300">{error}</p>}
       <p className="mt-4 text-center text-xs leading-relaxed text-slate-500">
-        No spam. We will only use these details to review your website and reply about the audit.
+        No spam. I\u2019ll only use this to look at your site and reply.
       </p>
     </form>
   );

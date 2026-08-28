@@ -1,7 +1,11 @@
 import React from 'react';
-import { ArrowDown, ArrowRight, Check, PhoneCall, Search, ShieldCheck, Wrench } from 'lucide-react';
+import { ArrowRight, Check, PhoneCall, Search, ShieldCheck, Wrench } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { AuditEnquiryForm } from '../components/AuditEnquiryForm';
+
+const PHONE = '07765 718094';
+const PHONE_TEL = 'tel:+447765718094';
+const CIS_URL = 'https://cis19th.vercel.app';
 
 const trades = [
   'Plumbers',
@@ -15,70 +19,69 @@ const trades = [
 ];
 
 const problems = [
-  'Your website looks dated compared with local competitors.',
-  'It is awkward to use on mobile when customers need help fast.',
-  'Visitors are not turning into calls or quote requests.',
-  'The site does not clearly show what you do or where you work.',
-  'Reviews, photos, accreditations, and trust signals are hard to find.',
-  'Contact details are buried instead of being one tap away.',
+  'Your van looks the part. The website looks like 2014.',
+  'It\u2019s a nightmare on a phone, which is how most people find you.',
+  'Reviews and Gas Safe / NICEIC sit on Facebook, not on the site.',
+  'You cover a real patch. The site doesn\u2019t say where.',
+  'The quote form is buried under waffle.',
+  'You\u2019re paying for a site that doesn\u2019t earn its keep.',
 ];
 
 const packageItems = [
-  'Up to 5 focused pages',
-  'Custom modern design',
-  'Mobile responsive build',
-  'Service area structure',
-  'Quote or contact form',
-  'Click-to-call buttons',
-  'WhatsApp-ready contact route',
-  'Reviews and trust section',
-  'Local SEO basics',
-  'Analytics setup',
+  'Up to 5 pages',
+  'Tap-to-call and WhatsApp',
+  'Quote form',
+  'Your services, your area, your reviews',
+  'Photos of real jobs',
+  'Local Google basics',
+  'We write the words',
 ];
 
 const reasons = [
   {
-    title: 'Built for enquiries',
-    copy: 'Pages are structured around calls, quote forms, service areas, and fast decisions.',
+    title: 'Built for calls, not a portfolio.',
+    copy: 'Pages are built so someone can ring you, not admire a studio site.',
     icon: PhoneCall,
   },
   {
-    title: 'Performance first',
-    copy: 'Clean development keeps the site fast, stable, and easy to expand later.',
+    title: 'Fast on a phone. That\u2019s the job.',
+    copy: 'Most people find you on a phone. If they can\u2019t tap the number, they ring the next van.',
     icon: Wrench,
   },
   {
-    title: 'Local SEO-ready',
-    copy: 'Headings, page structure, and service copy support searches like plumber website design and builder website design.',
+    title: 'Trust where they look.',
+    copy: 'Your reviews and tickets sit where a customer actually looks.',
     icon: Search,
   },
   {
-    title: 'Trust made obvious',
-    copy: 'Reviews, accreditations, recent work, and contact options sit where customers expect them.',
+    title: 'Wrexham-based.',
+    copy: `You can ring ${PHONE}.`,
     icon: ShieldCheck,
   },
 ];
 
 const faqs = [
   {
-    question: 'How long does a trades website build take?',
-    answer: 'Most starter websites take two to four weeks once the content, photos, and service details are ready.',
+    question: 'How much is it?',
+    answer:
+      '\u00a349 a month. No setup. Hosting is in. If you pay subs, CIS is free for 90 days, then \u00a39 (so \u00a358 if you keep both).',
   },
   {
-    question: 'Can you redesign an existing site?',
-    answer: 'Yes. We can keep what is useful, replace what is slowing enquiries down, and move the site onto a cleaner structure.',
+    question: 'How long to get it live?',
+    answer: 'Two to four weeks once we\u2019ve got photos, services, and where you cover.',
   },
   {
-    question: 'Can you help with SEO?',
-    answer: 'Yes. Every build includes local SEO basics, and service area pages can be added when you are ready to grow coverage.',
+    question: 'Can you redo the site I\u2019ve got?',
+    answer: 'Yes. Keep what\u2019s working, bin what isn\u2019t, put the number at the top.',
   },
   {
-    question: 'Do you write the content?',
-    answer: 'Yes. We can turn your services, locations, reviews, and photos into clear website copy customers understand quickly.',
+    question: 'Do you write the words?',
+    answer: 'Yes. You talk like you talk on the job. We put that on the page.',
   },
   {
-    question: 'Can you host and maintain the site too?',
-    answer: 'Yes. Hosting, maintenance, updates, and analytics reporting can be added after the build.',
+    question: 'What if I pay subcontractors?',
+    answer:
+      'Join the CIS list. It\u2019s a subbie register and a reminder before the 19th, not a tax robot. 90 days free with the site, then \u00a39.',
   },
 ];
 
@@ -106,14 +109,16 @@ const TradesWebDesign: React.FC = () => {
             className="max-w-4xl"
           >
             <p className="mb-5 font-mono text-xs uppercase tracking-widest text-brand-300">
-              Interwebb for local trades
+              Interwebb for trades
             </p>
             <h1 className="font-display text-5xl font-bold leading-[0.95] tracking-tight text-white md:text-7xl lg:text-8xl">
-              Web Design for Trades Businesses That Want More Calls
+              A site that gets the phone ringing.
             </h1>
             <p className="mt-8 max-w-2xl border-l border-brand-300/70 pl-6 text-lg leading-relaxed text-slate-300 md:text-xl">
-              We create professional, mobile-friendly websites for plumbers, electricians, builders, roofers and other
-              trades so more visitors turn into quote requests.
+              \u00a349 a month. No setup fee. Hosting included.
+            </p>
+            <p className="mt-4 max-w-2xl pl-6 text-base leading-relaxed text-slate-400 md:text-lg">
+              Pay other trades? CIS reminders, 90 days free, then \u00a39.
             </p>
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
               <button
@@ -121,17 +126,23 @@ const TradesWebDesign: React.FC = () => {
                 onClick={scrollToAudit}
                 className="inline-flex items-center justify-center gap-2 rounded-sm bg-brand-300 px-7 py-4 font-bold uppercase tracking-wide text-black transition-all hover:bg-brand-400"
               >
-                Get a Free Website Audit
+                Get a free audit
                 <ArrowRight size={18} />
               </button>
               <a
-                href="#package"
+                href={CIS_URL}
                 className="inline-flex items-center justify-center gap-2 rounded-sm border border-white/25 px-7 py-4 font-bold uppercase tracking-wide text-white transition-colors hover:border-brand-300 hover:text-brand-300"
               >
-                See What's Included
-                <ArrowDown size={18} />
+                Join the CIS list
+                <ArrowRight size={18} />
               </a>
             </div>
+            <a
+              href={PHONE_TEL}
+              className="mt-6 inline-block pl-0 text-lg font-semibold text-white hover:text-brand-300 sm:pl-0"
+            >
+              {PHONE}
+            </a>
           </motion.div>
         </div>
       </section>
@@ -142,7 +153,7 @@ const TradesWebDesign: React.FC = () => {
             <div>
               <p className="font-mono text-xs uppercase tracking-widest text-brand-300">Trades we work with</p>
               <h2 className="mt-4 font-display text-3xl font-bold text-white md:text-5xl">
-                Websites for local service businesses.
+                Built for the van, not a boardroom.
               </h2>
             </div>
             <div className="grid grid-cols-2 gap-x-8 gap-y-4 border-l border-white/10 pl-6 md:grid-cols-4">
@@ -164,13 +175,12 @@ const TradesWebDesign: React.FC = () => {
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 0.5 }}
           >
-            <p className="font-mono text-xs uppercase tracking-widest text-brand-300">What costs you enquiries</p>
+            <p className="font-mono text-xs uppercase tracking-widest text-brand-300">What costs you jobs</p>
             <h2 className="mt-4 font-display text-4xl font-bold text-white md:text-6xl">
               A weak website loses the job before the phone rings.
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-slate-400">
-              If your site looks dated, loads slowly, or makes it hard for people to contact you, it could be costing
-              you local work every week.
+              Someone googles a plumber at 7am. If they can\u2019t tap your number, they ring the next one.
             </p>
           </motion.div>
           <div className="divide-y divide-white/10 border-y border-white/10">
@@ -190,19 +200,26 @@ const TradesWebDesign: React.FC = () => {
             <div>
               <p className="font-mono text-xs uppercase tracking-widest text-brand-300">Trades website package</p>
               <h2 className="mt-4 font-display text-4xl font-bold text-white md:text-6xl">
-                A fixed starting point, not a confusing menu.
+                \u00a349 a month. That\u2019s the lot.
               </h2>
               <p className="mt-6 text-lg leading-relaxed text-slate-400">
-                Whether you need plumber website design, electrician website design, builder website design, roofing
-                website design, or another trade site, the first job is simple: make your business easy to trust and
-                easy to contact.
+                A proper trades site. No setup. Hosting included. One number, tap-to-call, WhatsApp, and a quote form
+                that isn\u2019t hiding.
+              </p>
+              <p className="mt-6 border-l border-brand-300/70 pl-6 text-base leading-relaxed text-slate-300">
+                If you pay subs, add CIS 19th. Subbie list and a nag before the 19th. 90 days free with the site, then
+                \u00a39. We don\u2019t file to HMRC.{' '}
+                <a href={CIS_URL} className="font-semibold text-brand-300 hover:text-brand-400">
+                  Join the CIS list
+                </a>
+                .
               </p>
               <button
                 type="button"
                 onClick={scrollToAudit}
                 className="mt-8 inline-flex items-center gap-2 rounded-sm bg-brand-300 px-7 py-4 font-bold uppercase tracking-wide text-black transition-colors hover:bg-brand-400"
               >
-                Get a Free Website Audit
+                Get a free audit
                 <ArrowRight size={18} />
               </button>
             </div>
@@ -221,9 +238,9 @@ const TradesWebDesign: React.FC = () => {
       <section className="py-24">
         <div className="mx-auto max-w-7xl px-6">
           <div className="max-w-3xl">
-            <p className="font-mono text-xs uppercase tracking-widest text-brand-300">Why choose Interwebb</p>
+            <p className="font-mono text-xs uppercase tracking-widest text-brand-300">Why Interwebb</p>
             <h2 className="mt-4 font-display text-4xl font-bold text-white md:text-6xl">
-              Modern websites with a development-first mindset.
+              Local, straight, and on the phone.
             </h2>
           </div>
           <div className="mt-12 grid gap-px overflow-hidden border border-white/10 bg-white/10 md:grid-cols-4">
@@ -250,16 +267,11 @@ const TradesWebDesign: React.FC = () => {
           <div>
             <p className="font-mono text-xs uppercase tracking-widest text-brand-300">Free 5-minute website audit</p>
             <h2 className="mt-4 font-display text-4xl font-bold text-white md:text-6xl">
-              Want to know what is costing you enquiries?
+              Send the site. I\u2019ll tell you what\u2019s costing you jobs.
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-slate-400">
-              Send your current website and we will show you quick improvements that could help generate more calls,
-              quote requests, and booked jobs.
+              Five minutes. You get a short note on what\u2019s losing calls, and whether \u00a349/mo is even worth it.
             </p>
-            <div className="mt-8 space-y-4 border-l border-white/10 pl-6 text-slate-300">
-              <p>Useful for websites for trades businesses that feel slow, dated, unclear, or hard to contact from mobile.</p>
-              <p>Delivered as a short written breakdown, scorecard, or quick video where useful.</p>
-            </div>
           </div>
           <AuditEnquiryForm />
         </div>
@@ -268,7 +280,7 @@ const TradesWebDesign: React.FC = () => {
       <section className="py-24">
         <div className="mx-auto max-w-5xl px-6">
           <p className="font-mono text-xs uppercase tracking-widest text-brand-300">FAQ</p>
-          <h2 className="mt-4 font-display text-4xl font-bold text-white md:text-6xl">Straight answers before you enquire.</h2>
+          <h2 className="mt-4 font-display text-4xl font-bold text-white md:text-6xl">Straight answers.</h2>
           <div className="mt-12 divide-y divide-white/10 border-y border-white/10">
             {faqs.map((faq) => (
               <details key={faq.question} className="group py-6">
@@ -285,21 +297,40 @@ const TradesWebDesign: React.FC = () => {
       <section className="border-t border-white/10 px-6 py-24 text-center">
         <div className="mx-auto max-w-4xl">
           <h2 className="font-display text-4xl font-bold leading-tight text-white md:text-6xl">
-            Request a free audit and get practical improvements for your trade website.
+            Get the phone ringing. \u00a349 a month.
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-slate-400">
-            Clear advice first. A fixed-price website build only makes sense after the biggest enquiry leaks are obvious.
+            No setup. Hosting included. Pay subs? CIS 90 days free, then \u00a39.
           </p>
-          <button
-            type="button"
-            onClick={scrollToAudit}
-            className="mt-10 inline-flex items-center justify-center gap-2 rounded-sm bg-brand-300 px-8 py-4 font-bold uppercase tracking-wide text-black transition-colors hover:bg-brand-400"
-          >
-            Get a Free Website Audit
-            <ArrowRight size={18} />
-          </button>
+          <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <button
+              type="button"
+              onClick={scrollToAudit}
+              className="inline-flex items-center justify-center gap-2 rounded-sm bg-brand-300 px-8 py-4 font-bold uppercase tracking-wide text-black transition-colors hover:bg-brand-400"
+            >
+              Get a free audit
+              <ArrowRight size={18} />
+            </button>
+            <a
+              href={CIS_URL}
+              className="inline-flex items-center justify-center gap-2 rounded-sm border border-white/25 px-8 py-4 font-bold uppercase tracking-wide text-white transition-colors hover:border-brand-300 hover:text-brand-300"
+            >
+              Join the CIS list
+              <ArrowRight size={18} />
+            </a>
+          </div>
+          <a href={PHONE_TEL} className="mt-6 inline-block text-lg font-semibold text-white hover:text-brand-300">
+            {PHONE}
+          </a>
         </div>
       </section>
+
+      <p className="border-t border-white/10 px-6 py-8 text-center text-sm text-slate-500">
+        Interwebb \u00b7 Wrexham \u00b7 Sites for trades \u00b7{' '}
+        <a href={PHONE_TEL} className="text-slate-400 hover:text-brand-300">
+          {PHONE}
+        </a>
+      </p>
 
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-slate-950/95 p-3 backdrop-blur md:hidden">
         <button
@@ -307,7 +338,7 @@ const TradesWebDesign: React.FC = () => {
           onClick={scrollToAudit}
           className="flex w-full items-center justify-center gap-2 rounded-sm bg-brand-300 px-5 py-3 text-sm font-bold uppercase tracking-wide text-black"
         >
-          Get a Free Website Audit
+          Get a free audit
           <ArrowRight size={16} />
         </button>
       </div>
